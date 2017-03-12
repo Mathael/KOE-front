@@ -140,7 +140,7 @@ export class BattlefieldComponent implements OnInit {
         console.log('selectCase', selectedCase);
     }
 
-    hideMovePattern() {
+    hideMovePattern():void{
         this._selectedHeroPattern.forEach((c) => c._highlightPattern = false);
         this._selectedHeroPattern = null;
     }

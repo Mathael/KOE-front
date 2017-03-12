@@ -5,7 +5,8 @@ import {GameConfigService} from "../../service/game-config.service";
 @Component({
     selector: 'app-hero-game-config',
     templateUrl: './hero-game-config.component.html',
-    styleUrls: ['./hero-game-config.component.css']
+    styleUrls: ['./hero-game-config.component.css'],
+    providers: [GameConfigService]
 })
 export class HeroGameConfigComponent implements OnInit {
 
@@ -20,7 +21,7 @@ export class HeroGameConfigComponent implements OnInit {
         this.loadGameConfigTemplates();
     }
 
-    loadGameConfigTemplates() :void {
+    loadGameConfigTemplates() : void {
         this.gameConfigService.findAll().subscribe(
             configs => {
                 this._configTemplates = configs;
@@ -29,7 +30,11 @@ export class HeroGameConfigComponent implements OnInit {
         );
     }
 
-    validate() {
+    select(config:GameConfigTemplate) : void {
+        this._selectedConfig = config;
+    }
+
+    validate() : void{
         if(!this._selectedConfig) return; // TODO: show error message
         this._validation.emit(this._selectedConfig);
     }

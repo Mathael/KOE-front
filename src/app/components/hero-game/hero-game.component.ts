@@ -34,7 +34,6 @@ export class HeroGameComponent implements OnInit {
         this._status = GameStatus.SELECTION;
     }
 
-    // GAME STATUS
     isSelectionStatus() {
         return this._status === GameStatus.SELECTION;
     }

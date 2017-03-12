@@ -1,0 +1,41 @@
+.configBox {
+    border: 2px solid black;
+    background-color: #5cbcc2;
+    color: black;
+    height: 250px;
+    width: 320px;
+    margin-right: 5px;
+    padding: 15px;
+}
+
+.configBox:last-child {
+    margin-right: 0;
+}
+
+.configBox:hover{
+    cursor: pointer;
+}
+
+.config-container {
+    display: flex;
+    justify-content: center;
+}
+
+#page-configuration-title {
+    text-align: center;
+}
+
+#page-configuration-title > h2 {
+    padding: 15px 0 15px 0;
+}
+
+.config-title {
+    border-bottom: 1px solid black;
+    text-align: center;
+    padding: 10px 0 15px 0;
+    margin: 0;
+}
+
+.highlight {
+    border: 2px solid yellow;
+}
