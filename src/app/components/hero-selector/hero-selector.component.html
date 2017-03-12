@@ -5,6 +5,9 @@
                 <a class="btn btn-sm btn-warning" (click)="reset()">Recommencer</a>
                 <a class="btn btn-sm btn-success" (click)="validate()">Valider et commencer</a>
             </div>
+            <div class="col-xs-12" [hidden]="!_displayError">
+                <p #errors></p>
+            </div>
         </div>
         <div class="col-xs-12">
             <div class="hero-card" *ngFor="let hero of _heroes" (click)="selectHero(hero)">

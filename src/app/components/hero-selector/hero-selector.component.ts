@@ -1,6 +1,7 @@
-import {Component, OnInit, Output, EventEmitter, Input} from '@angular/core';
+import {Component, OnInit, Output, EventEmitter, Input, ViewChild, ElementRef} from '@angular/core';
 import {Hero} from "../../model";
 import {HeroService} from "../../service/hero.service";
+import {Constants} from '../../util/Constants';
 
 @Component({
     moduleId: module.id,
@@ -14,7 +15,8 @@ export class HeroSelectorComponent implements OnInit {
     private _heroes:Hero[] = [];
     private _selectedHeroesPlayer1:Hero[] = [];
     private _selectedHeroesPlayer2:Hero[] = [];
-    private isFirstPlayerTurn = true;
+    private isFirstPlayerTurn:boolean = true;
+    private _displayError:boolean = false;
 
     @Input()
     public _configuration:any = null;
@@ -22,10 +24,14 @@ export class HeroSelectorComponent implements OnInit {
     @Output()
     private _validation: EventEmitter<any> = new EventEmitter<any>();
 
+    @ViewChild('errors')
+    private _errorContainer: ElementRef = null;
+
     constructor(private heroService:HeroService) {}
 
     ngOnInit() {
         this.loadHeroes();
+        this._errorContainer.nativeElement.innerHTML = Constants.MAXIMUM_NUMBER_OF_HEROES_REACHED;
     }
 
     loadHeroes() :void {
@@ -40,6 +46,12 @@ export class HeroSelectorComponent implements OnInit {
     selectHero(hero:Hero) {
         if(!hero || this.isSelectedByPlayer1(hero) || this.isSelectedByPlayer2(hero)) return;
 
+        if(this._selectedHeroesPlayer1.length == this._configuration.maxHeroesPerTeam &&
+            this._selectedHeroesPlayer2.length == this._configuration.maxHeroesPerTeam) {
+            this._displayError = true;
+            return;
+        }
+
         if(this.isFirstPlayerTurn){
             hero._owner = 'player1';
             this._selectedHeroesPlayer1.push(hero);
@@ -51,6 +63,7 @@ export class HeroSelectorComponent implements OnInit {
     }
 
     reset() {
+        this._displayError = false;
         this._selectedHeroesPlayer1 = [];
         this._selectedHeroesPlayer2 = [];
         this.isFirstPlayerTurn = true;
