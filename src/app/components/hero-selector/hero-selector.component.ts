@@ -1,4 +1,4 @@
-import {Component, OnInit, Output, EventEmitter} from '@angular/core';
+import {Component, OnInit, Output, EventEmitter, Input} from '@angular/core';
 import {Hero} from "../../model";
 import {HeroService} from "../../service/hero.service";
 
@@ -16,8 +16,8 @@ export class HeroSelectorComponent implements OnInit {
     private _selectedHeroesPlayer2:Hero[] = [];
     private isFirstPlayerTurn = true;
 
-    // Selector configuration
-    private _configuration:any = null;
+    @Input()
+    public _configuration:any = null;
 
     @Output()
     private _validation: EventEmitter<any> = new EventEmitter<any>();
