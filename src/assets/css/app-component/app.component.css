@@ -1,0 +1,13 @@
+.video_wrap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    min-width: 960px;
+    width: 100%;
+}
+
+.video_wrap #bg_video {
+    width: 100%;
+    display: block;
+}

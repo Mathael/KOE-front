@@ -1,0 +1,3 @@
+<app-hero-game-config [hidden]="!isGameConfigStatus()" (_validation)="onGameConfigurationFinish($event)"></app-hero-game-config>
+<app-hero-selector [hidden]="!isSelectionStatus()" (_validation)="onHeroesSelectionFinish($event)" [_configuration]="_configuration"></app-hero-selector>
+<app-battlefield [hidden]="!isDrawStatus()" #battlefield></app-battlefield>

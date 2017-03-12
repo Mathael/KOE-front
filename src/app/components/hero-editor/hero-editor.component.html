@@ -1,0 +1,133 @@
+<div class="container-fluid">
+    <div class="row">
+        <section class="col-xs-6">
+            <section class="panel panel-default col-xs-12">
+                <div class="panel-body">
+                    <form class="navbar-form navbar-left" role="search">
+                        <div class="form-group">
+                            <input type="text" size="30" class="form-control input-sm" #searchBox placeholder="Recherche par nom" id="search-box" (keyup)="search(searchBox.value)" />
+                        </div>
+                    </form>
+                    <div class="inline-block">
+                        <input type="checkbox" value="mage"> <label>Mage</label>
+                        <input type="checkbox" value="warrior" /> <label>Guerrier</label>
+                        <input type="checkbox" value="tank" /> <label>Tank</label>
+                        <input type="checkbox" value="healer" /> <label>Guérisseur</label>
+                    </div>
+                    <button class="btn btn-sm btn-success">Nouveau</button>
+                    <button *ngIf="_selectedHero" class="btn btn-sm btn-danger" (click)="remove(_selectedHero.id)">Supprimer</button>
+                </div>
+            </section>
+            <div class="row">
+                <div class="small-hero-card-img col-xs-3" *ngFor="let hero of _displayedHeroes">
+                    <img src="../../../assets/images/heroes/{{hero.imageName}}.jpg" alt="NaN" class="img-responsive small-hero-card-img" (click)="selectHero(hero)" [class.hero-card-highlight]="_selectedHero && hero.id == _selectedHero.id" />
+                </div>
+            </div>
+        </section>
+        <section class="col-xs-6">
+            <div class="text-center" *ngIf="!_selectedHero">
+                Selectionnez un Héro
+            </div>
+            <div class="panel panel-default" *ngIf="_selectedHero">
+                <div class="panel-heading">Panel d'édition<span class="float-right" [hidden]="!_selectedHero"><button class="btn btn-sm btn-success" (click)="update(_selectedHero)">Synchroniser les changements</button></span></div>
+                <div class="panel-body">
+                    <div>
+                        <fieldset class="col-xs-12">
+                            <legend>Informations de base</legend>
+                            <div class="form-group">
+                                <label class="control-label col-xs-2" for="input-name">Nom</label>
+                                <div class="col-xs-10">
+                                    <input class="form-control input-sm" type="text" [(ngModel)]="_selectedHero.name" id="input-name" value="{{_selectedHero.name}}" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-xs-2" for="input-description">Description</label>
+                                <div class="col-xs-10">
+                                    <textarea class="form-control" [(ngModel)]="_selectedHero.description" rows="5" id="input-description">{{_selectedHero.description}}</textarea>
+                                    <span class="help-block">Caractères restants : {{500 - _selectedHero.description.length}}</span>
+                                </div>
+                            </div>
+                        </fieldset>
+                        <fieldset class="col-xs-4">
+                            <legend>Pattern de déplacement</legend>
+                            <div class="case-pattern-edition">
+                                <div *ngFor="let cols of _movePatternCases">
+                                    <div *ngFor="let case of cols" class="battlefield-case" (click)="selectMovePatternCase(case._x-3, case._y-3)" [class.pattern-bg-color-green]="case._x == 3 && case._y == 3" [class.pattern-bg-color-blue]="hasMovePattern(case._x-3, case._y-3)">
+                                        <div></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                        <fieldset class="col-xs-4">
+                            <legend>Pattern d'attaque</legend>
+                            <div class="case-pattern-edition">
+                                <div *ngFor="let cols of _attackPatternCases">
+                                    <div *ngFor="let case of cols" class="battlefield-case" (click)="selectAttackPatternCase(case._x-3, case._y-3)" [class.pattern-bg-color-green]="case._x == 3 && case._y == 3" [class.pattern-bg-color-red]="hasAttackPattern(case._x-3, case._y-3)"></div>
+                                </div>
+                            </div>
+                        </fieldset>
+                        <fieldset class="col-xs-4">
+                            <legend>Pattern d'assistance</legend>
+                            <div class="case-pattern-edition">
+                                <div *ngFor="let cols of _assistancePatternCases">
+                                    <div *ngFor="let case of cols" class="battlefield-case" (click)="selectAssistancePatternCase(case._x-3, case._y-3)" [class.pattern-bg-color-green]="case._x == 3 && case._y == 3" [class.pattern-bg-color-yellow]="hasAssistancePattern(case._x-3, case._y-3)"></div>
+                                </div>
+                            </div>
+                        </fieldset>
+                        <fieldset class="col-xs-12">
+                            <legend>Statistiques</legend>
+                            <div class="col-xs-4">
+                                <div class="form-group" *ngFor="let stat of _selectedHero.stats">
+                                    <label class="control-label col-xs-7" for="{{stat.label}}">{{stat.label}}</label>
+                                    <div class="col-xs-5">
+                                        <input class="form-control input-sm" type="number" min="0" [disabled]="stat.sid != 'HEALTH' && getTotalUsedStatPoints() == 40" (change)="validateStats(stat)" [(ngModel)]="stat.value" id="{{stat.label}}" value="{{stat.value}}" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-4">
+                                <div class="display-stats-points-left">{{ 40 - getTotalUsedStatPoints() }}</div>
+                                <p class="text-center">Points restants à distribuer</p>
+                                <button class="btn btn-block btn-success" (click)="resetStatsPoints()">Remettre à zéro</button>
+                            </div>
+                            <div class="col-xs-4">
+                                <div class="radarChart">TODO: Chart</div>
+                            </div>
+                        </fieldset>
+                        <fieldset class="col-xs-12">
+                            <legend>Images</legend>
+                            <div class="form-group">
+                                <p>Prévisualisation</p>
+                                <div class="col-xs-6">
+                                    <figure>
+                                        <div class="display-flex justify-content-center">
+                                            <img src="../../../assets/images/heroes/small/{{_selectedHero.imageName}}.png" width="120" height="120" alt="NaN" />
+                                        </div>
+                                        <figcaption>Petit format 120 x 120</figcaption>
+                                    </figure>
+                                </div>
+                                <div class="col-xs-6">
+                                    <figure>
+                                        <div class="display-flex justify-content-center">
+                                            <img src="../../../assets/images/heroes/{{_selectedHero.imageName}}.jpg" alt="NaN" />
+                                        </div>
+                                        <figcaption>Grand format 260 x 390</figcaption>
+                                    </figure>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div>
+                                    <label for="input-file-normal">Image 260 x 390</label>
+                                    <input type="file" (change)="fileChange($event)" placeholder="Upload" id="input-file-normal" accept="image/png">
+                                    <label for="input-file-icon">Icône 120 x 120</label>
+                                    <input type="file" (change)="fileChange($event)" placeholder="Upload" id="input-file-icon" accept="image/png">
+                                    <label for="input-image-name">Attention : Le nom de l'image correspond au noms des fichiers.</label>
+                                    <input id="input-image-name" type="text" placeholder="Nom de l'image" [(ngModel)]="_selectedHero.imageName" />
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>

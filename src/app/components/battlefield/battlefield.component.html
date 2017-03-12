@@ -1,0 +1,41 @@
+<div class="container-fluid">
+    <div class="row">
+        <section class="col-lg-12">
+            <div class="col-lg-3"></div>
+            <h1 class="col-lg-6 text-center">Battlefield</h1>
+            <div class="col-lg-3"></div>
+        </section>
+        <section class="col-lg-12">
+            <div class="col-lg-2"></div>
+            <div class="col-lg-8 battlefield">
+                <div *ngFor="let cols of _cases">
+                    <div *ngFor="let case of cols" class="battlefield-case" (click)="selectCase(case)" [class.hero-card-highlight-pattern]="case._highlightPattern" [class.highlight]="case._highlight || _selectedHero && case._object && _selectedHero.id == case._object.id">
+                        <div *ngIf="case._object" class="battlefield-case-img" [style.background-image]="'url(../../../assets/images/heroes/small/' + case._object.imageName + '.png)'">
+                            <div>{{case._name}}</div>
+                            <div>{{case._object.name}}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2"></div>
+        </section>
+        <section class="col-lg-12" *ngIf="_isFirstPlayerTurn">
+            <div class="col-lg-2"></div>
+            <div class="col-lg-8 battlefield-player-cards-container">
+                <section class="battlefield-player-cards" *ngFor="let hero of _heroesP1">
+                    <img src="../../../assets/images/heroes/{{hero.imageName}}.jpg" alt="NaN" class="small-hero-card-img" (mouseenter)="highlight(hero)" (mouseout)="unHighlight(hero)" (click)="selectHero(hero)" [class.hero-card-highlight]="_selectedHero && hero.id == _selectedHero.id" />
+                </section>
+            </div>
+            <div class="col-lg-2"></div>
+        </section>
+        <section class="col-lg-12" *ngIf="!_isFirstPlayerTurn">
+            <div class="col-lg-2"></div>
+            <div class="col-lg-8 battlefield-player-cards-container">
+                <section class="battlefield-player-cards" *ngFor="let hero of _heroesP2">
+                    <img src="../../../assets/images/heroes/{{hero.imageName}}.jpg" alt="NaN" class="small-hero-card-img" (mouseenter)="highlight(hero)" (mouseout)="unHighlight(hero)" (click)="selectHero(hero)" [class.hero-card-highlight]="_selectedHero && hero.id == _selectedHero.id" />
+                </section>
+            </div>
+            <div class="col-lg-2"></div>
+        </section>
+    </div>
+</div>
