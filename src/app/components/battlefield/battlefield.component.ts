@@ -133,8 +133,10 @@ export class BattlefieldComponent implements OnInit {
                 this._selectedHero.coordY = selectedCase._y;
                 this._selectedCase._object = this._selectedHero;
                 this._selectedCase = null;
-                this._selectedHeroPattern.forEach((c) => c._highlightPattern = false);
-                this._selectedHeroPattern = null;
+
+                // Hide pattern and release selection from current Hero
+                this.hideMovePattern();
+                this._selectedHero = null;
             }
         }
         console.log('selectCase', selectedCase);
