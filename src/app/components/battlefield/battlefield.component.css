@@ -56,3 +56,17 @@
     height: 200px;
     width: auto;
 }
+
+figure {
+    display: inline-block;
+    text-align: center;
+    margin: 10px 10px 20px 10px;
+}
+
+figure img {
+    height: 48px;
+}
+
+figure:hover {
+    cursor: pointer;
+}
