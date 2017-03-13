@@ -170,7 +170,12 @@ export class BattlefieldComponent implements OnInit {
                     this._selectedHero = null;
                 }
             } else if(action == ActionType.ASSIST) {
-                console.log('assist required on case (' + selectedCase._x + ', ' + selectedCase._y + ')')
+                console.log('assist required on case (' + selectedCase._x + ', ' + selectedCase._y + ')');
+
+                if(!this._selectedHeroPattern.find((c:Case) => c._name === selectedCase._name)) return;
+                let target = this.checkIfCaseContainAllies(selectedCase);
+                if(target == null) return;
+                Utils.handleAssist(this._selectedHero, target);
             } else if(action == ActionType.ATTACK && this._selectedCase._object) {
                 if(!this._selectedHeroPattern.find((c:Case) => c._name === selectedCase._name)) return;
                 let target = this.checkIfCaseContainEnnemies(selectedCase);
@@ -201,6 +206,17 @@ export class BattlefieldComponent implements OnInit {
 
         if((this._isFirstPlayerTurn && sCase._object._owner != 'player1') ||
             (!this._isFirstPlayerTurn && sCase._object._owner == 'player1'))
+            return sCase._object;
+        return null;
+    }
+
+    checkIfCaseContainAllies(sCase:Case) : Hero | null {
+        if(!sCase) return null;
+
+        if(!sCase._object) return null;
+
+        if((this._isFirstPlayerTurn && sCase._object._owner == 'player1') ||
+            (!this._isFirstPlayerTurn && sCase._object._owner != 'player1'))
             return sCase._object;
         return null;
     }
