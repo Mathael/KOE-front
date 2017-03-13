@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {HeroService} from "../../service/hero.service";
 import {Case, Hero} from "../../model";
 import {Utils} from "../../util/Utils";
+import {ActionType} from "../../enum";
 
 @Component({
     moduleId: module.id,
@@ -21,6 +22,11 @@ export class BattlefieldComponent implements OnInit {
     // boolean to manage turn
     private _isFirstPlayerTurn:boolean = true;
 
+    // Players selected actions types
+    // These variables have 2 type because we
+    private _selectedActionTypeP1:ActionType = ActionType.MOVE;
+    private _selectedActionTypeP2:ActionType = ActionType.MOVE;
+
     // Dynamic properties
     private _selectedHero:Hero = null;
     private _selectedCase:Case = null;
@@ -37,7 +43,7 @@ export class BattlefieldComponent implements OnInit {
         }
     }
 
-    initialize(_heroes:any):void{
+    initialize(_heroes:any) : void {
         this._isFirstPlayerTurn = true;
         this._heroesP1 = _heroes.heroesPlayer1;
         this._heroesP2 = _heroes.heroesPlayer2;
@@ -80,7 +86,19 @@ export class BattlefieldComponent implements OnInit {
         });
     }
 
-    highlight(hero:Hero):void {
+    getCurrentPlayerActionType() : ActionType {
+        return this._isFirstPlayerTurn ? this._selectedActionTypeP1 : this._selectedActionTypeP2;
+    }
+
+    getCurrentPlayerActionTypeToString() : string {
+        return ActionType[this.getCurrentPlayerActionType()];
+    }
+
+    getActionTypeFromString(str:string) : ActionType {
+        return ActionType[str] || ActionType.MOVE;
+    }
+
+    highlight(hero:Hero) : void {
         if(!hero) return;
 
         let heroCase = this._cases[hero.coordX][hero.coordY];
@@ -89,7 +107,7 @@ export class BattlefieldComponent implements OnInit {
         this._cases[hero.coordX][hero.coordY]._highlight = true;
     }
 
-    unHighlight(hero:Hero):void {
+    unHighlight(hero:Hero) : void {
         if(!hero) return;
 
         let heroCase = this._cases[hero.coordX][hero.coordY];
@@ -98,7 +116,21 @@ export class BattlefieldComponent implements OnInit {
         this._cases[hero.coordX][hero.coordY]._highlight = false;
     }
 
-    selectHero(hero:Hero):void {
+    changeActionType(actionStr:string, firstPlayer:boolean) : void {
+        if(!actionStr) return;
+
+        let action : ActionType = ActionType[actionStr];
+
+        // Prevent player to select the other player icons
+        if(this._isFirstPlayerTurn != firstPlayer) return;
+
+        this._isFirstPlayerTurn ? this._selectedActionTypeP1 = action : this._selectedActionTypeP2 = action;
+
+        // Handle change action type when hero is selected
+        if(this._selectedHero) this.displayPattern(this._selectedHero);
+    }
+
+    selectHero(hero:Hero) : void {
         if(!hero) return;
 
         // Handle release selection
@@ -117,41 +149,48 @@ export class BattlefieldComponent implements OnInit {
 
         this._selectedHero = hero;
         console.log('selectHero', hero);
-        this.displayHeroPattern(hero);
+        this.displayPattern(hero);
     }
 
-    selectCase(selectedCase:Case):void {
+    selectCase(selectedCase:Case) : void {
         if(!selectedCase) return;
         this._selectedCase = selectedCase;
 
+        let action:ActionType = this._isFirstPlayerTurn ? this._selectedActionTypeP1 : this._selectedActionTypeP2;
+
         // Check if hero want to move
         if(!this._selectedCase._object && this._selectedHero && this._selectedHeroPattern) {
-            if(this._selectedHeroPattern.find((c:Case) => c._name === selectedCase._name)){
-                this._cases[this._selectedHero.coordX][this._selectedHero.coordY]._object = null;
-                this._selectedHero.coordX = selectedCase._x;
-                this._selectedHero.coordY = selectedCase._y;
-                this._selectedCase._object = this._selectedHero;
-                this._selectedCase = null;
+            if(action == ActionType.MOVE) {
+                if(this._selectedHeroPattern.find((c:Case) => c._name === selectedCase._name)) {
+                    this._cases[this._selectedHero.coordX][this._selectedHero.coordY]._object = null;
+                    this._selectedHero.coordX = selectedCase._x;
+                    this._selectedHero.coordY = selectedCase._y;
+                    this._selectedCase._object = this._selectedHero;
+                    this._selectedCase = null;
 
-                // Hide pattern and release selection from current Hero
-                this.hideMovePattern();
-                this._selectedHero = null;
+                    // Hide pattern and release selection from current Hero
+                    this.hideMovePattern();
+                    this._selectedHero = null;
+                }
+            } else if(action == ActionType.ASSIST) {
+                console.log('assist required on case (' + selectedCase._x + ', ' + selectedCase._y + ')')
+            } else if(action == ActionType.ATTACK) {
+                console.log('Attack required on case (' + selectedCase._x + ', ' + selectedCase._y + ')')
             }
         }
-        console.log('selectCase', selectedCase);
     }
 
-    hideMovePattern():void{
+    hideMovePattern() : void {
         this._selectedHeroPattern.forEach((c) => c._highlightPattern = false);
         this._selectedHeroPattern = null;
     }
 
-    isEmptyCase(x, y):boolean{
+    isEmptyCase(x, y) : boolean {
         let battlefieldCase = this.getCase(x,y);
         return !battlefieldCase || !battlefieldCase._object;
     }
 
-    getCase(x:number = 0, y:number = 0):Case|null{
+    getCase(x:number = 0, y:number = 0) : Case | null {
         if(this._cases && this._cases[x] && this._cases[x][y]) return this._cases[x][y];
     }
 
@@ -174,9 +213,64 @@ export class BattlefieldComponent implements OnInit {
         return results;
     }
 
+    getHeroAssistPatternsCases(hero:Hero): Case[] | null {
+        if(!hero) return;
+
+        let currentX = hero.coordX;
+        let currentY = hero.coordY;
+
+        let results:Case[] = [];
+
+        // Currently we consider the normal Pattern only
+        hero.assistancePattern.forEach((pattern) => {
+            let patternCase = this.getCase(pattern.x + currentX, pattern.y + currentY);
+            if(patternCase && patternCase._object == null){
+                results.push(patternCase);
+            }
+        });
+
+        return results;
+    }
+
+    getHeroAttackPatternsCases(hero:Hero): Case[] | null {
+        if(!hero) return;
+
+        let currentX = hero.coordX;
+        let currentY = hero.coordY;
+
+        let results:Case[] = [];
+
+        // Currently we consider the normal Pattern only
+        hero.attackPattern.forEach((pattern) => {
+            let patternCase = this.getCase(pattern.x + currentX, pattern.y + currentY);
+            if(patternCase && patternCase._object == null){
+                results.push(patternCase);
+            }
+        });
+
+        return results;
+    }
+
+    // @Deprecated
     displayHeroPattern(hero:Hero) : void {
         if(!hero) return;
         let pattern:Case[] = this.getHeroMovePatternsCases(hero);
+        pattern.forEach((c) => c._highlightPattern = true);
+        this._selectedHeroPattern = pattern;
+    }
+
+    displayPattern(hero:Hero) : void {
+        if(!hero) return;
+        if(this._selectedHeroPattern) this.hideMovePattern();
+
+        let pattern:Case[] = [];
+        let action:ActionType = this._isFirstPlayerTurn ? this._selectedActionTypeP1 : this._selectedActionTypeP2;
+        switch(action) {
+            case ActionType.ASSIST: pattern = this.getHeroAssistPatternsCases(hero); break;
+            case ActionType.ATTACK: pattern = this.getHeroAttackPatternsCases(hero); break;
+            default : pattern = this.getHeroMovePatternsCases(hero); break;
+        }
+
         pattern.forEach((c) => c._highlightPattern = true);
         this._selectedHeroPattern = pattern;
     }

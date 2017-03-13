@@ -31,7 +31,7 @@
     width: 65px;
 }
 
-.battlefield-case:last-child{
+.battlefield-case:last-child {
     border-right: 1px solid black;
 }
 
@@ -48,8 +48,16 @@
     border: 1px solid yellow;
 }
 
-.hero-card-highlight-pattern {
+.hero-card-highlight-move-pattern {
     background-color: rgba(74, 178, 233, 0.5);
+}
+
+.hero-card-highlight-assist-pattern {
+    background-color: rgba(229, 235, 4, 0.5);
+}
+
+.hero-card-highlight-attack-pattern {
+    background-color: rgba(250, 0, 0, 0.5);
 }
 
 .small-hero-card-img {
