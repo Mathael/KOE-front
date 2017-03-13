@@ -165,7 +165,6 @@ export class BattlefieldComponent implements OnInit {
                     this._selectedHero.coordY = selectedCase._y;
                     this._selectedCase._object = this._selectedHero;
                     this._selectedCase = null;
-
                     // Hide pattern and release selection from current Hero
                     this.hidePattern();
                     this._selectedHero = null;
@@ -195,83 +194,6 @@ export class BattlefieldComponent implements OnInit {
         if(this._cases && this._cases[x] && this._cases[x][y]) return this._cases[x][y];
     }
 
-    getHeroMovePatternsCases(hero:Hero): Case[] | null {
-        if(!hero) return;
-
-        let currentX = hero.coordX;
-        let currentY = hero.coordY;
-
-        let results:Case[] = [];
-
-        // Currently we consider the normal Pattern only
-        hero.movePattern.forEach((pattern) => {
-            let patternCase = this.getCase(pattern.x + currentX, pattern.y + currentY);
-            if(patternCase && patternCase._object == null){
-                results.push(patternCase);
-            }
-        });
-
-        return results;
-    }
-
-    getHeroAssistPatternsCases(hero:Hero): Case[] | null {
-        if(!hero) return;
-
-        let currentX = hero.coordX;
-        let currentY = hero.coordY;
-
-        let results:Case[] = [];
-
-        // Currently we consider the normal Pattern only
-        hero.assistancePattern.forEach((pattern) => {
-            let patternCase = this.getCase(pattern.x + currentX, pattern.y + currentY);
-            if(patternCase) results.push(patternCase);
-        });
-
-        return results;
-    }
-
-    getHeroAttackPatternsCases(hero:Hero): Case[] | null {
-        if(!hero) return;
-
-        let currentX = hero.coordX;
-        let currentY = hero.coordY;
-
-        let results:Case[] = [];
-
-        // Currently we consider the normal Pattern only
-        hero.attackPattern.forEach((pattern) => {
-            let patternCase = this.getCase(pattern.x + currentX, pattern.y + currentY);
-            if(patternCase) results.push(patternCase);
-        });
-
-        return results;
-    }
-
-    // @Deprecated
-    displayHeroPattern(hero:Hero) : void {
-        if(!hero) return;
-        let pattern:Case[] = this.getHeroMovePatternsCases(hero);
-        pattern.forEach((c) => c._highlightPattern = true);
-        this._selectedHeroPattern = pattern;
-    }
-
-    displayPattern(hero:Hero) : void {
-        if(!hero) return;
-        if(this._selectedHeroPattern) this.hidePattern();
-
-        let pattern:Case[] = [];
-        let action:ActionType = this._isFirstPlayerTurn ? this._selectedActionTypeP1 : this._selectedActionTypeP2;
-        switch(action) {
-            case ActionType.ASSIST: pattern = this.getHeroAssistPatternsCases(hero); break;
-            case ActionType.ATTACK: pattern = this.getHeroAttackPatternsCases(hero); break;
-            default : pattern = this.getHeroMovePatternsCases(hero); break;
-        }
-
-        pattern.forEach((c) => c._highlightPattern = true);
-        this._selectedHeroPattern = pattern;
-    }
-
     checkIfCaseContainEnnemies(sCase:Case) : Hero | null {
         if(!sCase) return null;
 
@@ -281,5 +203,54 @@ export class BattlefieldComponent implements OnInit {
             (!this._isFirstPlayerTurn && sCase._object._owner == 'player1'))
             return sCase._object;
         return null;
+    }
+
+    displayPattern(hero:Hero) : void {
+        if(!hero) return;
+        if(this._selectedHeroPattern) this.hidePattern();
+
+        let currentX = hero.coordX;
+        let currentY = hero.coordY;
+
+        let pattern:Case[] = [];
+        let action:ActionType = this._isFirstPlayerTurn ? this._selectedActionTypeP1 : this._selectedActionTypeP2;
+
+        switch(action) {
+            case ActionType.ASSIST:
+            {
+                hero.assistancePattern.forEach((pttrn) => {
+                    let patternCase = this.getCase(pttrn.x + currentX, pttrn.y + currentY);
+                    if(patternCase) {
+                        patternCase._highlightPattern = true;
+                        pattern.push(patternCase);
+                    }
+                });
+                break;
+            }
+            case ActionType.ATTACK:
+            {
+                hero.attackPattern.forEach((pttrn) => {
+                    let patternCase = this.getCase(pttrn.x + currentX, pttrn.y + currentY);
+                    if(patternCase) {
+                        patternCase._highlightPattern = true;
+                        pattern.push(patternCase);
+                    }
+                });
+                break;
+            }
+            default :
+            {
+                hero.movePattern.forEach((pttrn) => {
+                    let patternCase = this.getCase(pttrn.x + currentX, pttrn.y + currentY);
+                    if(patternCase && patternCase._object == null){
+                        patternCase._highlightPattern = true;
+                        pattern.push(patternCase);
+                    }
+                });
+                break;
+            }
+        }
+
+        this._selectedHeroPattern = pattern;
     }
 }
