@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {HeroService} from "../../service/hero.service";
 import {Case, Hero} from "../../model";
 import {Utils} from "../../util/Utils";
 import {ActionType} from "../../enum";
@@ -9,7 +8,6 @@ import {ActionType} from "../../enum";
     selector: 'app-battlefield',
     templateUrl: './battlefield.component.html',
     styleUrls: ['./battlefield.component.css'],
-    providers: [HeroService]
 })
 export class BattlefieldComponent implements OnInit {
 
@@ -32,7 +30,7 @@ export class BattlefieldComponent implements OnInit {
     private _selectedCase:Case = null;
     private _selectedHeroPattern = null;
 
-    constructor(private heroService: HeroService) {}
+    constructor() {}
 
     ngOnInit() {
         for(let i=0;i<15;i++){
@@ -135,7 +133,7 @@ export class BattlefieldComponent implements OnInit {
 
         // Handle release selection
         if(this._selectedHero && hero.id == this._selectedHero.id) {
-            this.hideMovePattern();
+            this.hidePattern();
             this._selectedHero = null;
             return;
         }
@@ -145,7 +143,7 @@ export class BattlefieldComponent implements OnInit {
         // [class.highligh-hero-card]="_selectedHero && ..."
         this._selectedHero = null;
 
-        if(this._selectedHeroPattern) this.hideMovePattern();
+        if(this._selectedHeroPattern) this.hidePattern();
 
         this._selectedHero = hero;
         console.log('selectHero', hero);
@@ -159,8 +157,8 @@ export class BattlefieldComponent implements OnInit {
         let action:ActionType = this._isFirstPlayerTurn ? this._selectedActionTypeP1 : this._selectedActionTypeP2;
 
         // Check if hero want to move
-        if(!this._selectedCase._object && this._selectedHero && this._selectedHeroPattern) {
-            if(action == ActionType.MOVE) {
+        if(this._selectedHero && this._selectedHeroPattern) {
+            if(action == ActionType.MOVE && !this._selectedCase._object) {
                 if(this._selectedHeroPattern.find((c:Case) => c._name === selectedCase._name)) {
                     this._cases[this._selectedHero.coordX][this._selectedHero.coordY]._object = null;
                     this._selectedHero.coordX = selectedCase._x;
@@ -169,18 +167,21 @@ export class BattlefieldComponent implements OnInit {
                     this._selectedCase = null;
 
                     // Hide pattern and release selection from current Hero
-                    this.hideMovePattern();
+                    this.hidePattern();
                     this._selectedHero = null;
                 }
             } else if(action == ActionType.ASSIST) {
                 console.log('assist required on case (' + selectedCase._x + ', ' + selectedCase._y + ')')
-            } else if(action == ActionType.ATTACK) {
-                console.log('Attack required on case (' + selectedCase._x + ', ' + selectedCase._y + ')')
+            } else if(action == ActionType.ATTACK && this._selectedCase._object) {
+                if(!this._selectedHeroPattern.find((c:Case) => c._name === selectedCase._name)) return;
+                let target = this.checkIfCaseContainEnnemies(selectedCase);
+                if(target == null) return;
+                Utils.handleAttack(this._selectedHero, target);
             }
         }
     }
 
-    hideMovePattern() : void {
+    hidePattern() : void {
         this._selectedHeroPattern.forEach((c) => c._highlightPattern = false);
         this._selectedHeroPattern = null;
     }
@@ -224,9 +225,7 @@ export class BattlefieldComponent implements OnInit {
         // Currently we consider the normal Pattern only
         hero.assistancePattern.forEach((pattern) => {
             let patternCase = this.getCase(pattern.x + currentX, pattern.y + currentY);
-            if(patternCase && patternCase._object == null){
-                results.push(patternCase);
-            }
+            if(patternCase) results.push(patternCase);
         });
 
         return results;
@@ -243,9 +242,7 @@ export class BattlefieldComponent implements OnInit {
         // Currently we consider the normal Pattern only
         hero.attackPattern.forEach((pattern) => {
             let patternCase = this.getCase(pattern.x + currentX, pattern.y + currentY);
-            if(patternCase && patternCase._object == null){
-                results.push(patternCase);
-            }
+            if(patternCase) results.push(patternCase);
         });
 
         return results;
@@ -261,7 +258,7 @@ export class BattlefieldComponent implements OnInit {
 
     displayPattern(hero:Hero) : void {
         if(!hero) return;
-        if(this._selectedHeroPattern) this.hideMovePattern();
+        if(this._selectedHeroPattern) this.hidePattern();
 
         let pattern:Case[] = [];
         let action:ActionType = this._isFirstPlayerTurn ? this._selectedActionTypeP1 : this._selectedActionTypeP2;
@@ -273,5 +270,16 @@ export class BattlefieldComponent implements OnInit {
 
         pattern.forEach((c) => c._highlightPattern = true);
         this._selectedHeroPattern = pattern;
+    }
+
+    checkIfCaseContainEnnemies(sCase:Case) : Hero | null {
+        if(!sCase) return null;
+
+        if(!sCase._object) return null;
+
+        if((this._isFirstPlayerTurn && sCase._object._owner != 'player1') ||
+            (!this._isFirstPlayerTurn && sCase._object._owner == 'player1'))
+            return sCase._object;
+        return null;
     }
 }

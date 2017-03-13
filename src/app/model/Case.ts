@@ -1,10 +1,8 @@
-import {GameObject} from "./GameObject";
-
 export class Case {
     public _name: string;
     public _x : number;
     public _y : number;
-    public _object : GameObject =  null;
+    public _object : any =  null; // <? extends GameObject>
     public _highlight:boolean = false; // Borders colored
     public _highlightPattern:boolean = false; // Background-color
 
