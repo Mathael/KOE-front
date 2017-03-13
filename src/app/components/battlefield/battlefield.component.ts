@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {HeroService} from "../../service/hero.service";
 import {Case, Hero} from "../../model";
-import {Directions} from "../../enum";
 import {Utils} from "../../util/Utils";
 
 @Component({
@@ -30,9 +29,9 @@ export class BattlefieldComponent implements OnInit {
     constructor(private heroService: HeroService) {}
 
     ngOnInit() {
-        for(let i=0;i<12;i++){
+        for(let i=0;i<15;i++){
             this._cases[i] = [];
-            for(let j=0;j<6;j++) {
+            for(let j=0;j<8;j++) {
                 this._cases[i][j] = new Case(i+':'+j, i, j);
             }
         }

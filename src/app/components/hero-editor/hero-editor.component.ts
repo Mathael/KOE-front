@@ -1,9 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {HeroService} from "../../service/hero.service";
-import {Hero} from "../../model";
-import {Stat} from "../../model/Stat";
-import {Case} from "../../model/Case";
-import {Coordinate} from "../../model/Coordinate";
+import {Hero, Stat, Case, Coordinate} from "../../model";
 
 @Component({
     moduleId: module.id,
