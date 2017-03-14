@@ -16,8 +16,7 @@ export class Utils {
         console.log(attacker.name + ' handleAttack on target ' + target.name);
 
         let attackerPatk = this.getStat('PATK', attacker.stats);
-        let targetHealth = this.getStat('HEALTH', target.stats);
-        targetHealth.value -= (10 + attackerPatk.value * 3);
+        target.currentHP -= (10 + attackerPatk.value * 3);
     }
 
     /**
@@ -26,10 +25,9 @@ export class Utils {
     static handleAssist(effector:Hero, effected:Hero) : void {
         console.log(effector.name + ' handleAssist on target ' + effected.name);
 
-        let effectedHealth = this.getStat('HEALTH', effected.stats);
         let effectorMatk = this.getStat('MATK', effector.stats);
 
-        effectedHealth.value += 5 + effectorMatk.value * 2;
+        effected.currentHP += 5 + effectorMatk.value * 2;
     }
 
     /**

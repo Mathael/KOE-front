@@ -1,7 +1,7 @@
 import {Component, OnInit, Output, EventEmitter, Input, ViewChild, ElementRef} from '@angular/core';
 import {Hero} from "../../model";
 import {HeroService} from "../../service/hero.service";
-import {Constants} from '../../util/Constants';
+import {Constants, Utils} from '../../util';
 
 @Component({
     moduleId: module.id,
@@ -38,6 +38,7 @@ export class HeroSelectorComponent implements OnInit {
         this.heroService.findAll().subscribe(
             heroes => {
                 this._heroes = heroes;
+                this._heroes.forEach(hero => hero.currentHP = Utils.getStat('HEALTH', hero.stats).value);
             },
             err => console.error(err)
         );

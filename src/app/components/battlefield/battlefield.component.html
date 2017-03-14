@@ -55,6 +55,9 @@
                          [class.hero-card-highlight-attack-pattern]="case._highlightPattern && getCurrentPlayerActionTypeToString() == 'ATTACK'"
                          [class.highlight]="case._highlight || _selectedHero && case._object && _selectedHero.id == case._object.id">
                         <div *ngIf="case._object" class="battlefield-case-img" [style.background-image]="'url(../../../assets/images/heroes/small/' + case._object.imageName + '.png)'"></div>
+                        <div *ngIf="case._object" id="progressbar">
+                            <div [style.width]="getHealth(case._object)"></div>
+                        </div>
                     </div>
                 </div>
             </div>

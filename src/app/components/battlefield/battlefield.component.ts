@@ -170,8 +170,6 @@ export class BattlefieldComponent implements OnInit {
                     this._selectedHero = null;
                 }
             } else if(action == ActionType.ASSIST) {
-                console.log('assist required on case (' + selectedCase._x + ', ' + selectedCase._y + ')');
-
                 if(!this._selectedHeroPattern.find((c:Case) => c._name === selectedCase._name)) return;
                 let target = this.checkIfCaseContainAllies(selectedCase);
                 if(target == null) return;
@@ -197,6 +195,11 @@ export class BattlefieldComponent implements OnInit {
 
     getCase(x:number = 0, y:number = 0) : Case | null {
         if(this._cases && this._cases[x] && this._cases[x][y]) return this._cases[x][y];
+    }
+
+    getHealth(hero:Hero) : string {
+        let percent = (hero.currentHP * 100 / Utils.getStat('HEALTH', hero.stats).value);
+        return (60 / 100 * percent) + 'px'; // 60px = 100%
     }
 
     checkIfCaseContainEnnemies(sCase:Case) : Hero | null {
