@@ -95,3 +95,11 @@ figure:hover {
     height: 3px;
     border-radius: 10px;
 }
+
+.pointer-attack {
+    cursor: url('../../../assets/images/icons/epee-white.png'), pointer;
+}
+
+.pointer-assist {
+    cursor: url('../../../assets/images/icons/cursor_assist.png'), pointer;
+}
