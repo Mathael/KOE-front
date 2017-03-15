@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {HeroService} from "../../service/hero.service";
-import {Hero, Stat, Case, Coordinate} from "../../model";
+import {Hero, Stat} from "../../model";
 
 @Component({
     moduleId: module.id,
@@ -21,36 +21,10 @@ export class HeroEditorComponent implements OnInit {
     // We're using this array because of SearchEngine
     private _displayedHeroes:Hero[];
 
-    // Two dimension tab to display cases
-    private _movePatternCases:any[] = [];
-    private _attackPatternCases:any[] = [];
-    private _assistancePatternCases:any[] = [];
-
     constructor(private heroService:HeroService) {}
 
     ngOnInit() {
         this.loadHeroes();
-
-        for(let i=0;i<7;i++){
-            this._movePatternCases[i] = [];
-            for(let j=0;j<7;j++) {
-                this._movePatternCases[i][j] = new Case(i+':'+j, i, j);
-            }
-        }
-
-        for(let i=0;i<7;i++){
-            this._attackPatternCases[i] = [];
-            for(let j=0;j<7;j++) {
-                this._attackPatternCases[i][j] = new Case(i+':'+j, i, j);
-            }
-        }
-
-        for(let i=0;i<7;i++){
-            this._assistancePatternCases[i] = [];
-            for(let j=0;j<7;j++) {
-                this._assistancePatternCases[i][j] = new Case(i+':'+j, i, j);
-            }
-        }
     }
 
     loadHeroes() :void {
@@ -114,42 +88,6 @@ export class HeroEditorComponent implements OnInit {
             if(stat.sid != 'HEALTH') sum += stat.value
         });
         return sum;
-    }
-
-    hasMovePattern(x:number, y:number){
-        return this._selectedHero.movePattern.find(coord => coord.x == (x) && coord.y == (y)) != null;
-    }
-
-    hasAttackPattern(x:number, y:number){
-        return this._selectedHero.attackPattern.find(coord => coord.x == (x) && coord.y == (y)) != null;
-    }
-
-    hasAssistancePattern(x:number, y:number){
-        return this._selectedHero.assistancePattern.find(coord => coord.x == (x) && coord.y == (y)) != null;
-    }
-
-    selectMovePatternCase(x:number, y:number){
-        if(x == 3 && y == 3) return;
-        let pattern = this._selectedHero.movePattern.find(coord => coord.x == (x) && coord.y == (y));
-        pattern ?
-            this._selectedHero.movePattern.splice(this._selectedHero.movePattern.indexOf(pattern), 1) :
-            this._selectedHero.movePattern.push(new Coordinate(x, y));
-    }
-
-    selectAttackPatternCase(x:number, y:number){
-        if(x == 3 && y == 3) return;
-        let pattern = this._selectedHero.attackPattern.find(coord => coord.x == (x) && coord.y == (y));
-        pattern ?
-            this._selectedHero.attackPattern.splice(this._selectedHero.attackPattern.indexOf(pattern), 1) :
-            this._selectedHero.attackPattern.push(new Coordinate(x, y));
-    }
-
-    selectAssistancePatternCase(x:number, y:number){
-        if(x == 3 && y == 3) return;
-        let pattern = this._selectedHero.assistancePattern.find(coord => coord.x == (x) && coord.y == (y));
-        pattern ?
-            this._selectedHero.assistancePattern.splice(this._selectedHero.assistancePattern.indexOf(pattern), 1) :
-            this._selectedHero.assistancePattern.push(new Coordinate(x, y));
     }
 
     fileChange(event) {

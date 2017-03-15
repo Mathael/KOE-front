@@ -1,0 +1,10 @@
+<div class="case-pattern-edition">
+    <div *ngFor="let cols of _cases">
+        <div *ngFor="let case of cols"
+             (click)="selectPatternCase(case._x-3, case._y-3)"
+             class="battlefield-case {{ displayColorClass(case) }}"
+             [class.pattern-bg-color-green]="case._x == 3 && case._y == 3">
+            <div></div>
+        </div>
+    </div>
+</div>

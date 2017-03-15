@@ -5,8 +5,8 @@ import {HttpModule} from '@angular/http';
 
 import {AppComponent} from './app.component';
 import {AppRoutingModule} from "./app-routing.module";
-import { HeroEditorComponent, BattlefieldComponent, HeroSelectorComponent, HeroGameComponent } from './components';
-import { HeroGameConfigComponent } from './components/hero-game-config/hero-game-config.component';
+import { HeroEditorComponent, BattlefieldComponent, HeroSelectorComponent, HeroGameComponent, HeroGameConfigComponent, HeroEditorPaneComponent } from './components';
+import { HeroEditorPatternComponent } from './components/hero-editor-pattern/hero-editor-pattern.component';
 
 @NgModule({
     declarations: [
@@ -16,6 +16,8 @@ import { HeroGameConfigComponent } from './components/hero-game-config/hero-game
         HeroSelectorComponent,
         HeroGameComponent,
         HeroGameConfigComponent,
+        HeroEditorPaneComponent,
+        HeroEditorPatternComponent,
     ],
     imports: [
         BrowserModule,

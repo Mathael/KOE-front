@@ -26,36 +26,6 @@ fieldset > legend {
     font-size: 14px;
 }
 
-.battlefield-case {
-    border: 1px solid black;
-    height: 25px;
-    width: 25px;
-    display: inline-block;
-    margin-right: 3px;
-    cursor: pointer;
-}
-
-.case-pattern-edition {
-    display: flex;
-    justify-content: center;
-    width: 216px;
-}
-
-.case-pattern-edition:last-child {
-    margin-right: 0;
-}
-
-.pattern-right-pane {
-    display: inline-block;
-    border: 1px solid black;
-    box-sizing: border-box;
-    padding: 4px 10px;
-    vertical-align: top;
-    height: 100%;
-    width: 60%;
-    margin-left: 10px;
-}
-
 .form-group {
     margin-bottom: 10px;
     min-height: 30px;
@@ -65,8 +35,3 @@ fieldset > legend {
     text-align: center;
     font-size: 52px;
 }
-
-.pattern-bg-color-red { background-color: darkred; }
-.pattern-bg-color-blue { background-color: dodgerblue; }
-.pattern-bg-color-green { background-color: mediumseagreen; }
-.pattern-bg-color-yellow { background-color: #c2c200; }

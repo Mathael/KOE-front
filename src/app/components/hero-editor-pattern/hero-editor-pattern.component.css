@@ -1,0 +1,23 @@
+.case-pattern-edition {
+    display: flex;
+    justify-content: center;
+    width: 216px;
+}
+
+.case-pattern-edition:last-child {
+    margin-right: 0;
+}
+
+.pattern-bg-color-red { background-color: darkred; }
+.pattern-bg-color-blue { background-color: dodgerblue; }
+.pattern-bg-color-green { background-color: mediumseagreen; }
+.pattern-bg-color-yellow { background-color: #c2c200; }
+
+.battlefield-case {
+    border: 1px solid black;
+    height: 25px;
+    width: 25px;
+    display: inline-block;
+    margin-right: 3px;
+    cursor: pointer;
+}
