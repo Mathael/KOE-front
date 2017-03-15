@@ -7,7 +7,7 @@ export class Utils {
     }
 
     // Typescript or EcmaScript doesn't support full class cast when retrieve object from API
-    // => That's why our class method are converted to utilities
+    // => That's why our class method are converted to utility class
 
     /**
      * Algo : STR * 3 + 10 + (DEX/2)
@@ -21,6 +21,7 @@ export class Utils {
 
     /**
      * Algo : INT * 5 + MEN * 5 - CON * 2
+     * An assist is a Heal effect
      */
     static handleAssist(effector:Hero, effected:Hero) : void {
         let effectorINT : number = this.getStat('INT', effector.stats).value;
