@@ -30,8 +30,3 @@ fieldset > legend {
     margin-bottom: 10px;
     min-height: 30px;
 }
-
-.display-stats-points-left {
-    text-align: center;
-    font-size: 52px;
-}

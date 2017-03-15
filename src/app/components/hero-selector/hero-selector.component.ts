@@ -38,7 +38,6 @@ export class HeroSelectorComponent implements OnInit {
         this.heroService.findAll().subscribe(
             heroes => {
                 this._heroes = heroes;
-                this._heroes.forEach(hero => hero.currentHP = Utils.getStat('HEALTH', hero.stats).value);
             },
             err => console.error(err)
         );

@@ -212,7 +212,7 @@ export class BattlefieldComponent implements OnInit {
     }
 
     getHealth(hero:Hero) : string {
-        let percent = (hero.currentHP * 100 / Utils.getStat('HEALTH', hero.stats).value);
+        let percent = (hero.currentHp * 100 / hero.maxHp);
         return (60 / 100 * percent) + 'px'; // 60px = 100%
     }
 

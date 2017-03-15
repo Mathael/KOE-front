@@ -62,22 +62,7 @@
                         </fieldset>
                         <fieldset class="col-xs-12">
                             <legend>Statistiques</legend>
-                            <div class="col-xs-4">
-                                <div class="form-group" *ngFor="let stat of _selectedHero.stats">
-                                    <label class="control-label col-xs-7" for="{{stat.label}}">{{stat.label}}</label>
-                                    <div class="col-xs-5">
-                                        <input class="form-control input-sm" type="number" min="0" [disabled]="stat.sid != 'HEALTH' && getTotalUsedStatPoints() == 40" (change)="validateStats(stat)" [(ngModel)]="stat.value" id="{{stat.label}}" value="{{stat.value}}" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xs-4">
-                                <div class="display-stats-points-left">{{ 40 - getTotalUsedStatPoints() }}</div>
-                                <p class="text-center">Points restants à distribuer</p>
-                                <button class="btn btn-block btn-success" (click)="resetStatsPoints()">Remettre à zéro</button>
-                            </div>
-                            <div class="col-xs-4">
-                                <div class="radarChart">TODO: Chart</div>
-                            </div>
+                            <app-hero-editor-stats [_stats]="_selectedHero.stats"></app-hero-editor-stats>
                         </fieldset>
                         <fieldset class="col-xs-12">
                             <legend>Images</legend>

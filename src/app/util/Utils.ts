@@ -10,24 +10,24 @@ export class Utils {
     // => That's why our class method are converted to utilities
 
     /**
-     * Algo : 10 + PATK * 3
+     * Algo : STR * 3 + 10 + (DEX/2)
      */
     static handleAttack(attacker:Hero, target:Hero) : void {
-        console.log(attacker.name + ' handleAttack on target ' + target.name);
+        let attackerSTR : number = this.getStat('STR', attacker.stats).value;
+        let attackerDEX : number = this.getStat('DEX', attacker.stats).value;
 
-        let attackerPatk = this.getStat('PATK', attacker.stats);
-        target.currentHP -= (10 + attackerPatk.value * 3);
+        target.currentHp -= (attackerSTR * 3 + 10 + (attackerDEX / 2));
     }
 
     /**
-     * Algo : 5 + MATK * 2
+     * Algo : INT * 5 + MEN * 5 - CON * 2
      */
     static handleAssist(effector:Hero, effected:Hero) : void {
-        console.log(effector.name + ' handleAssist on target ' + effected.name);
+        let effectorINT : number = this.getStat('INT', effector.stats).value;
+        let effectorMEN : number = this.getStat('MEN', effector.stats).value;
+        let effectorCON : number = this.getStat('CON', effector.stats).value;
 
-        let effectorMatk = this.getStat('MATK', effector.stats);
-
-        effected.currentHP += 5 + effectorMatk.value * 2;
+        effected.currentHp += effectorINT * 5 + effectorMEN * 5 - effectorCON * 2;
     }
 
     /**

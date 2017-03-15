@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {HeroService} from "../../service/hero.service";
-import {Hero, Stat} from "../../model";
+import {Hero} from "../../model";
 
 @Component({
     moduleId: module.id,
@@ -68,26 +68,6 @@ export class HeroEditorComponent implements OnInit {
             console.log(data);
             if(data == true) this._selectedHero = null;
         }, err => console.error(err));
-    }
-
-    validateStats(stat:Stat):void{
-        let pts = this.getTotalUsedStatPoints();
-        if(pts > 40) stat.value = 40 - pts;
-    }
-
-    resetStatsPoints():void{
-        this._selectedHero.stats.forEach((stat) => {
-            if(stat.sid != 'HEALTH') stat.value = 0;
-        });
-    }
-
-    getTotalUsedStatPoints() {
-        if(!this._selectedHero) return;
-        let sum = 0;
-        this._selectedHero.stats.forEach((stat) => {
-            if(stat.sid != 'HEALTH') sum += stat.value
-        });
-        return sum;
     }
 
     fileChange(event) {
