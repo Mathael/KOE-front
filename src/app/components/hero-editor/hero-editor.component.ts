@@ -75,4 +75,8 @@ export class HeroEditorComponent implements OnInit {
             if(data == true) this._selectedHero = null;
         }, err => console.error(err));
     }
+
+    create() {
+        this._selectedHero = new Hero(null, 'Unamed', 'Ce héro ne possède aucune description.');
+    }
 }

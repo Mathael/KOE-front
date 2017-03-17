@@ -2,8 +2,8 @@ import {GameObject} from "./GameObject";
 import {Stat} from "./Stat";
 import {Coordinate} from "./Coordinate";
 
-export class Hero extends GameObject{
-    public stats : Stat[];
+export class Hero extends GameObject {
+    public stats : Stat[] = [];
     public imageName:string = '';
     public classType:string = null;
 
@@ -26,4 +26,14 @@ export class Hero extends GameObject{
 
     // The player owner
     public _owner : string = null;
+
+    // Constructor used to create a new Hero
+    constructor(id, name, descr) {
+        super(id, name, descr);
+        this.stats.push(new Stat('STR', 'Force', 0));
+        this.stats.push(new Stat('CON', 'Constitution', 0));
+        this.stats.push(new Stat('DEX', 'Dextérité', 0));
+        this.stats.push(new Stat('INT', 'Intelligence', 0));
+        this.stats.push(new Stat('MEN', 'Mental', 0));
+    }
 }

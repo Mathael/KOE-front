@@ -14,7 +14,7 @@
                         <input type="checkbox" value="tank" /> <label>Tank</label>
                         <input type="checkbox" value="healer" /> <label>Guérisseur</label>
                     </div>
-                    <button class="btn btn-sm btn-success">Nouveau</button>
+                    <button class="btn btn-sm btn-success" (click)="create()">Nouveau</button>
                     <button *ngIf="_selectedHero" class="btn btn-sm btn-danger" (click)="remove(_selectedHero.id)">Supprimer</button>
                 </div>
             </section>
