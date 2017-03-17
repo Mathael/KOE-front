@@ -192,14 +192,14 @@ export class BattlefieldComponent implements OnInit {
         return (currentCase._object &&
             ((this._isFirstPlayerTurn && currentCase._object._owner != 'player1' && this._selectedActionTypeP1 == ActionType.ATTACK) ||
             (!this._isFirstPlayerTurn && currentCase._object._owner == 'player1' && this._selectedActionTypeP2 == ActionType.ATTACK)) &&
-            this._selectedHeroPattern.find(c => c._name === currentCase._name)) || false;
+            this._selectedHeroPattern && this._selectedHeroPattern.find(c => c._name === currentCase._name)) || false;
     }
 
     toggleAssistCursor(currentCase:Case) : boolean {
         return (currentCase._object &&
             ((this._isFirstPlayerTurn && currentCase._object._owner == 'player1' && this._selectedActionTypeP1 == ActionType.ASSIST) ||
             (!this._isFirstPlayerTurn && currentCase._object._owner != 'player1' && this._selectedActionTypeP2 == ActionType.ASSIST)) &&
-            this._selectedHeroPattern.find(c => c._name === currentCase._name)) || false;
+            this._selectedHeroPattern && this._selectedHeroPattern.find(c => c._name === currentCase._name)) || false;
     }
 
     isEmptyCase(x, y) : boolean {
