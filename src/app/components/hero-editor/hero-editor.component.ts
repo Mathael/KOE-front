@@ -59,7 +59,7 @@ export class HeroEditorComponent implements OnInit {
     // Search handler when writing text in search bar
     search(term:string) {
         if(!term || term == '') {
-            if(this._displayedHeroes.length != this._heroes.length)
+            if(this._displayedHeroes && this._displayedHeroes.length != this._heroes.length)
                 this._displayedHeroes = this._heroes;
             return;
         }
