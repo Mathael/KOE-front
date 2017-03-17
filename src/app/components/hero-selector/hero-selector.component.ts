@@ -1,7 +1,7 @@
 import {Component, OnInit, Output, EventEmitter, Input, ViewChild, ElementRef} from '@angular/core';
 import {Hero} from "../../model";
 import {HeroService} from "../../service/hero.service";
-import {Constants, Utils} from '../../util';
+import {Constants} from '../../util';
 
 @Component({
     moduleId: module.id,
@@ -43,6 +43,7 @@ export class HeroSelectorComponent implements OnInit {
         );
     }
 
+    // Handle Hero selection (store in specific array) and change the boolean that define the current player turn
     selectHero(hero:Hero) {
         if(!hero || this.isSelectedByPlayer1(hero) || this.isSelectedByPlayer2(hero)) return;
 
@@ -52,6 +53,7 @@ export class HeroSelectorComponent implements OnInit {
             return;
         }
 
+        // The hero must known his player
         if(this.isFirstPlayerTurn){
             hero._owner = 'player1';
             this._selectedHeroesPlayer1.push(hero);
@@ -62,6 +64,7 @@ export class HeroSelectorComponent implements OnInit {
         this.isFirstPlayerTurn = !this.isFirstPlayerTurn;
     }
 
+    // Handle reset selection click
     reset() {
         this._displayError = false;
         this._selectedHeroesPlayer1 = [];
@@ -69,6 +72,7 @@ export class HeroSelectorComponent implements OnInit {
         this.isFirstPlayerTurn = true;
     }
 
+    // Validate selections and send the list of selected heroes to the parent component (Hero-Game.component)
     validate() {
         if(this._selectedHeroesPlayer1.length == this._configuration.maxHeroesPerTeam &&
             this._selectedHeroesPlayer2.length == this._configuration.maxHeroesPerTeam)
@@ -79,6 +83,8 @@ export class HeroSelectorComponent implements OnInit {
         );
         else console.error('incorrect champion count'); // TODO: show message
     }
+
+    // Utilities functions
 
     isSelectedByPlayer1(hero:Hero) {
         return this._selectedHeroesPlayer1.find((current) => {
