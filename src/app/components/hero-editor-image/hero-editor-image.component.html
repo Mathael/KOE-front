@@ -1,0 +1,35 @@
+<div class="form-group">
+    <div>
+        <p class="text-center" style="color: #ad0307;">Les images sont sauvegardées sous le nom du hero sans espace et en minuscule.</p>
+    </div>
+    <div class="col-xs-12" style="margin-bottom: 10px;">
+        <label class="col-xs-3" for="input-file-normal">Image 260 x 390</label>
+        <input class="col-xs-6" id="input-file-normal" #image type="file" accept="image/png" />
+        <button class="btn-sm btn-warning col-xs-3" (click)="uploadFile('image')" style="height: 30px;">Envoyer l'image sur le serveur</button>
+    </div>
+    <div class="col-xs-12">
+        <label class="col-xs-3" for="input-file-icon">Icône 120 x 120</label>
+        <input class="col-xs-6" id="input-file-icon" #icon type="file" accept="image/png" />
+        <button class="btn btn-sm btn-warning col-xs-3" (click)="uploadFile('icon')" style="height: 30px;">Envoyer l'image sur le serveur</button>
+    </div>
+</div>
+<div class="form-group">
+    <p>Prévisualisation</p>
+    <div class="col-xs-6">
+        <figure>
+            <div class="display-flex justify-content-center">
+                <img src="../../../assets/images/heroes/small/{{_hero.imageName}}.png" width="120" height="120" alt="NaN" />
+            </div>
+            <figcaption>Petit format 120 x 120</figcaption>
+        </figure>
+    </div>
+    <div class="col-xs-6">
+        <figure>
+            <div class="display-flex justify-content-center">
+                <img src="../../../assets/images/heroes/{{_hero.imageName}}.jpg" alt="NaN" />
+            </div>
+            <figcaption>Grand format 260 x 390</figcaption>
+        </figure>
+    </div>
+</div>
+

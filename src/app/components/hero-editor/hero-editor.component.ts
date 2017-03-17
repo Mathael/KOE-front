@@ -27,6 +27,7 @@ export class HeroEditorComponent implements OnInit {
         this.loadHeroes();
     }
 
+    // Store heroes in an array and store displayed heroes in another array
     loadHeroes() :void {
         this.heroService.findAll().subscribe(
             heroes => {
@@ -37,6 +38,8 @@ export class HeroEditorComponent implements OnInit {
         );
     }
 
+    // Delete an Hero by his identifier
+    // if API answer True, we remove the Hero from front
     remove(id:string):void{
         if(!id) return;
         this.heroService.remove(id).subscribe((response) => {
@@ -47,11 +50,13 @@ export class HeroEditorComponent implements OnInit {
         }, err => console.error(err));
     }
 
+    // Click handler
     selectHero(hero:Hero):void{
         if(!hero) return;
         this._selectedHero = hero;
     }
 
+    // Search handler when writing text in search bar
     search(term:string) {
         if(!term || term == '') {
             if(this._displayedHeroes.length != this._heroes.length)
@@ -59,35 +64,15 @@ export class HeroEditorComponent implements OnInit {
             return;
         }
 
-        this._displayedHeroes = this._heroes.filter((hero) => hero.name.toLowerCase().indexOf(term.toLowerCase()) != -1);
+        this._displayedHeroes = this._heroes.filter(hero => hero.name.toLowerCase().indexOf(term.toLowerCase()) != -1);
     }
 
+    // Synchronize Hero changes with the API
     update(hero:Hero):void{
         if(!hero) return;
         this.heroService.update(hero).subscribe((data) => {
             console.log(data);
             if(data == true) this._selectedHero = null;
         }, err => console.error(err));
-    }
-
-    fileChange(event) {
-        /*let fileList: FileList = event.target.files;
-         if(fileList.length > 0) {
-         let file: File = fileList[0];
-         let formData:FormData = new FormData();
-         formData.append('uploadFile', file, file.name);
-         let headers = new Headers();
-         headers.append('Content-Type', 'multipart/form-data');
-         headers.append('Accept', 'application/json');
-         let options = new RequestOptions({ headers: headers });
-
-         /*this.http.post(`${this.apiEndPoint}`, formData, options)
-         .map(res => res.json())
-         .catch(error => Observable.throw(error))
-         .subscribe(
-         data => console.log('success'),
-         error => console.log(error)
-         )
-         }*/
     }
 }
