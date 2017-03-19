@@ -1,6 +1,6 @@
 import {Component, OnInit, Output, EventEmitter, Input, ViewChild, ElementRef} from '@angular/core';
 import {Hero} from "../../model";
-import {HeroService} from "../../service/hero.service";
+import {HeroService} from "../../service";
 import {Constants} from '../../util';
 
 @Component({

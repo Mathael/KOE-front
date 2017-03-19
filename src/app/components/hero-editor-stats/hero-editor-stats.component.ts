@@ -15,13 +15,18 @@ export class HeroEditorStatsComponent implements OnInit {
 
     ngOnInit() {}
 
-    validateStats(stat:Stat):void{
-        let pts = this.getTotalUsedStatPoints();
-        if(pts > 40) stat.value = 40 - pts;
-    }
-
     resetStatsPoints():void{
         this._stats.forEach(stat => stat.value = 0);
+    }
+
+    changeStatValue(stat:Stat, addValue:number) {
+        let total = this.getTotalUsedStatPoints();
+        if(total == 0 && addValue < 0 ||
+            total == 40 && addValue > 0) {
+            return; // TODO: error message
+        }
+
+        stat.value += addValue;
     }
 
     getTotalUsedStatPoints() {

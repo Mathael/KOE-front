@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Case, Hero} from "../../model";
-import {Utils} from "../../util/Utils";
+import {Utils} from "../../util";
 import {ActionType} from "../../enum";
 
 @Component({
