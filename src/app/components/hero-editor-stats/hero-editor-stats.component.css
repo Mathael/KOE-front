@@ -2,3 +2,8 @@
     text-align: center;
     font-size: 52px;
 }
+
+.stat-input-view {
+    width: 50px;
+    display: inline-block;
+}

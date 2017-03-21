@@ -22,7 +22,8 @@ export class HeroEditorStatsComponent implements OnInit {
     changeStatValue(stat:Stat, addValue:number) {
         let total = this.getTotalUsedStatPoints();
         if(total == 0 && addValue < 0 ||
-            total == 40 && addValue > 0) {
+            total == 40 && addValue > 0 ||
+            (stat.value <= 0 && addValue < 0)) {
             return; // TODO: error message
         }
 

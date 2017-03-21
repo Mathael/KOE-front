@@ -1,9 +1,9 @@
-<div class="col-xs-4">
+<div class="col-xs-8">
     <div class="form-group" *ngFor="let stat of _stats">
         <label class="control-label col-xs-5" for="{{stat.label}}">{{stat.label}}</label>
         <div class="col-xs-7">
             <button class="btn btn-sm btn-success" (click)="changeStatValue(stat, -1)">-</button>
-            <input class="form-control input-sm" type="number" min="0" [(ngModel)]="stat.value" id="{{stat.label}}" value="{{stat.value}}" readonly />
+            <input class="form-control input-sm stat-input-view" type="text" [(ngModel)]="stat.value" id="{{stat.label}}" value="{{stat.value}}" readonly />
             <button class="btn btn-sm btn-success" (click)="changeStatValue(stat, 1)">+</button>
         </div>
     </div>
@@ -12,7 +12,4 @@
     <div class="display-stats-points-left">{{ 40 - getTotalUsedStatPoints() }}</div>
     <p class="text-center">Points restants à distribuer</p>
     <button class="btn btn-block btn-success" (click)="resetStatsPoints()">Remettre à zéro</button>
-</div>
-<div class="col-xs-4">
-    <div class="radarChart"></div>
 </div>
