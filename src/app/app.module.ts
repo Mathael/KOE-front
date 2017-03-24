@@ -5,10 +5,16 @@ import {HttpModule} from '@angular/http';
 
 import {AppComponent} from './app.component';
 import {AppRoutingModule} from "./app-routing.module";
-import { HeroEditorComponent, BattlefieldComponent, HeroSelectorComponent, HeroGameComponent, HeroGameConfigComponent } from './components';
-import { HeroEditorPatternComponent } from './components/hero-editor-pattern/hero-editor-pattern.component';
-import { HeroEditorStatsComponent } from './components/hero-editor-stats/hero-editor-stats.component';
-import { HeroEditorImageComponent } from './components/hero-editor-image/hero-editor-image.component';
+import {
+    HeroEditorComponent,
+    BattlefieldComponent,
+    HeroSelectorComponent,
+    HeroGameComponent,
+    HeroGameConfigComponent,
+    HeroEditorPatternComponent,
+    HeroEditorImageComponent,
+    HeroEditorStatsComponent
+} from './components';
 
 @NgModule({
     declarations: [
