@@ -20,7 +20,8 @@
             </section>
             <div class="row">
                 <div class="small-hero-card-img col-xs-3" *ngFor="let hero of _displayedHeroes">
-                    <img src="../../../assets/images/heroes/{{hero.imageName}}.jpg" alt="NaN" class="img-responsive small-hero-card-img" (click)="selectHero(hero)" [class.hero-card-highlight]="_selectedHero && hero.id == _selectedHero.id" />
+                    <img *ngIf="hero.image && !hero.imageB64" src="../../../assets/images/heroes/{{hero.image}}.jpg" alt="NaN" class="img-responsive small-hero-card-img" (click)="selectHero(hero)" [class.hero-card-highlight]="_selectedHero && hero.id == _selectedHero.id" />
+                    <img *ngIf="hero.imageB64" src="data:image/jpg;charset=utf-8;base64,{{hero.imageB64}}" alt="NaN" class="img-responsive small-hero-card-img" (click)="selectHero(hero)" [class.hero-card-highlight]="_selectedHero && hero.id == _selectedHero.id" />
                 </div>
             </div>
         </section>

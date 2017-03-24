@@ -4,7 +4,9 @@ import {Coordinate} from "./Coordinate";
 
 export class Hero extends GameObject {
     public stats : Stat[] = [];
-    public imageName:string = '';
+    public image:string = '';
+    public imageB64:string = '';
+    public iconB64:string = '';
     public classType:string = null;
 
     // Patterns

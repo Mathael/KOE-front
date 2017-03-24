@@ -13,12 +13,13 @@
         <button class="btn btn-sm btn-warning col-xs-3" (click)="uploadFile('icon')" style="height: 30px;">Envoyer l'image sur le serveur</button>
     </div>
 </div>
-<div class="form-group">
+<div class="form-group" *ngIf="_hero">
     <p>Prévisualisation</p>
     <div class="col-xs-6">
         <figure>
             <div class="display-flex justify-content-center">
-                <img src="../../../assets/images/heroes/small/{{_hero.imageName}}.png" width="120" height="120" alt="NaN" />
+                <img *ngIf="_hero.image && !_hero.iconB64" src="../../../assets/images/heroes/small/{{_hero.image}}.png" width="120" height="120" />
+                <img *ngIf="_hero.iconB64" [src]="_iconSafe" width="120" height="120" />
             </div>
             <figcaption>Petit format 120 x 120</figcaption>
         </figure>
@@ -26,7 +27,8 @@
     <div class="col-xs-6">
         <figure>
             <div class="display-flex justify-content-center">
-                <img src="../../../assets/images/heroes/{{_hero.imageName}}.jpg" alt="NaN" />
+                <img *ngIf="_hero.image && !_hero.imageB64" src="../../../assets/images/heroes/{{_hero.image}}.jpg" width="260" height="390" />
+                <img *ngIf="_hero.imageB64" [src]="_imageSafe" width="260" height="390" />
             </div>
             <figcaption>Grand format 260 x 390</figcaption>
         </figure>

@@ -1,4 +1,5 @@
 import {Component, OnInit, Input, ViewChild} from '@angular/core';
+import {DomSanitizer, SafeUrl} from "@angular/platform-browser";
 import {Hero} from "../../model";
 import {UploadService} from '../../service'
 
@@ -19,9 +20,15 @@ export class HeroEditorImageComponent implements OnInit {
     @ViewChild('icon')
     private _iconFile = null;
 
-    constructor(private uploadService:UploadService) {}
+    private _imageSafe: SafeUrl;
+    private _iconSafe: SafeUrl;
 
-    ngOnInit() {}
+    constructor(private uploadService:UploadService, private sanitizer: DomSanitizer) {}
+
+    ngOnInit() {
+        if(this._hero.imageB64) this._imageSafe = this.sanitizer.bypassSecurityTrustUrl('data:image/jpg;base64,'+this._hero.imageB64);
+        if(this._hero.iconB64) this._iconSafe = this.sanitizer.bypassSecurityTrustUrl('data:image/png;base64,'+this._hero.iconB64);
+    }
 
     uploadFile(type:string) {
         let input : any = type == 'icon' ? this._iconFile : this._imageFile;
@@ -34,7 +41,13 @@ export class HeroEditorImageComponent implements OnInit {
 
             this.uploadService
                 .upload(this._hero.id, type, data)
-                .subscribe(res => console.log(res));
+                .subscribe(res => {
+                    if(res) {
+                        this._hero = res;
+                        if(this._hero.imageB64) this._imageSafe = this.sanitizer.bypassSecurityTrustUrl('data:image/jpg;base64,'+this._hero.imageB64);
+                        if(this._hero.iconB64) this._iconSafe = this.sanitizer.bypassSecurityTrustUrl('data:image/png;base64,'+this._hero.iconB64);
+                    }
+                });
         }
     }
 }

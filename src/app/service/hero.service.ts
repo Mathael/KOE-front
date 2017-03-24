@@ -16,6 +16,7 @@ export class HeroService implements OnInit{
         return this
             .http
             .delete(`/api/hero/${id}`)
+            .debounceTime(800)
             .map((res:Response) => res.json())
             .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
     }
@@ -24,6 +25,7 @@ export class HeroService implements OnInit{
         return this
             .http
             .get('/api/hero')
+            .debounceTime(800)
             .map((res:Response) => res.json())
             .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
     }
@@ -32,6 +34,7 @@ export class HeroService implements OnInit{
         return this
             .http
             .put('/api/hero', hero)
+            .debounceTime(800)
             .map((res:Response) => res.json())
             .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
     }
