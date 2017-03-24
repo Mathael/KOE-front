@@ -72,7 +72,6 @@ export class HeroEditorComponent implements OnInit {
         if(!hero) return;
         this.heroService.update(hero).subscribe((data) => {
             console.log(data);
-            if(data == true) this._selectedHero = null;
         }, err => console.error(err));
     }
 
