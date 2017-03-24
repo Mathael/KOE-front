@@ -15,6 +15,7 @@ import {
     HeroEditorImageComponent,
     HeroEditorStatsComponent
 } from './components';
+import { ItemComponent } from './components/item/item.component';
 
 @NgModule({
     declarations: [
@@ -27,6 +28,7 @@ import {
         HeroEditorPatternComponent,
         HeroEditorStatsComponent,
         HeroEditorImageComponent,
+        ItemComponent,
     ],
     imports: [
         BrowserModule,

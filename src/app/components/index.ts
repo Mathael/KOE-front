@@ -6,3 +6,4 @@ export * from './hero-editor-stats/hero-editor-stats.component';
 export * from './hero-game/hero-game.component';
 export * from './hero-game-config/hero-game-config.component'
 export * from './hero-selector/hero-selector.component';
+export * from './item/item.component';
