@@ -1,13 +1,13 @@
 import {Injectable, OnInit} from '@angular/core';
 import {Http, Response, Headers, RequestOptions} from "@angular/http";
-import {Hero} from "../model/Hero";
+import {Item} from "../model";
 import {Observable} from 'rxjs/Rx';
 
 @Injectable()
-export class HeroService implements OnInit{
+export class ItemService implements OnInit{
 
     ngOnInit(): void {
-        console.log('HeroService initialized');
+        console.log('ItemService initialized');
     }
 
     constructor(private http:Http) {}
@@ -15,16 +15,16 @@ export class HeroService implements OnInit{
     remove(id:string): Observable<boolean> {
         return this
             .http
-            .delete(`/api/hero/${id}`)
+            .delete(`/api/item/${id}`)
             .debounceTime(800)
             .map((res:Response) => res.json())
             .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
     }
 
-    findAll() : Observable<Hero[]> {
+    findAll() : Observable<Item[]> {
         return this
             .http
-            .get('/api/hero')
+            .get('/api/item')
             .debounceTime(800)
             .map((res:Response) => res.json())
             .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
@@ -33,20 +33,20 @@ export class HeroService implements OnInit{
     update(hero) : Observable<boolean> {
         return this
             .http
-            .put('/api/hero', hero)
+            .put('/api/item', hero)
             .debounceTime(800)
             .map((res:Response) => res.json())
             .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
     }
 
-    create (body: Hero): Observable<Hero> {
+    create (body: Item): Observable<Item> {
         //let bodyString = JSON.stringify(body); // Stringify payload
         let headers = new Headers({ 'Content-Type': 'application/json' }); // ... Set content type to JSON
         let options = new RequestOptions({ headers: headers }); // Create a request option
 
         return this
             .http
-            .post('/api/hero', body, options)
+            .post('/api/item', body, options)
             .map((res:Response) => res.json())
             .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
     }

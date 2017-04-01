@@ -34,11 +34,9 @@ export class HeroSelectorComponent implements OnInit {
         this._errorContainer.nativeElement.innerHTML = Constants.MAXIMUM_NUMBER_OF_HEROES_REACHED;
     }
 
-    loadHeroes() :void {
+    loadHeroes() : void {
         this.heroService.findAll().subscribe(
-            heroes => {
-                this._heroes = heroes;
-            },
+            heroes => this._heroes = heroes,
             err => console.error(err)
         );
     }
