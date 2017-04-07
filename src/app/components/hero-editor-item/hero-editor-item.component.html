@@ -1,0 +1,17 @@
+<div>
+    <label>Objet porté par le héro</label>
+    <select style="color: black;" name="item" (change)="selectItem($event.target.value)">
+        <option value="null">Aucun</option>
+        <option style="color: black;" *ngFor="let item of _items" value="{{item.id}}" [selected]="_hero.item && item.id == _hero.item.id">
+            {{item.name}}
+        </option>
+    </select>
+    <div *ngIf="_hero.item">
+        <div>Statistiques de l'objet</div>
+        <ul>
+            <li *ngFor="let stat of _hero.item.stats" class="list-inline">
+                {{stat.label}} [{{stat.value}}]
+            </li>
+        </ul>
+    </div>
+</div>

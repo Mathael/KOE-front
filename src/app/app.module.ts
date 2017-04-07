@@ -13,21 +13,23 @@ import {
     HeroGameConfigComponent,
     HeroEditorPatternComponent,
     HeroEditorImageComponent,
-    HeroEditorStatsComponent
+    HeroEditorStatsComponent,
+    HeroEditorItemComponent,
+    ItemComponent
 } from './components';
-import { ItemComponent } from './components/item/item.component';
 
 @NgModule({
     declarations: [
         AppComponent,
-        HeroEditorComponent,
         BattlefieldComponent,
-        HeroSelectorComponent,
-        HeroGameComponent,
-        HeroGameConfigComponent,
+        HeroEditorComponent,
+        HeroEditorItemComponent,
         HeroEditorPatternComponent,
         HeroEditorStatsComponent,
         HeroEditorImageComponent,
+        HeroGameComponent,
+        HeroGameConfigComponent,
+        HeroSelectorComponent,
         ItemComponent,
     ],
     imports: [

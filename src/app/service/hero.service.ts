@@ -6,6 +6,9 @@ import {Observable} from 'rxjs/Rx';
 @Injectable()
 export class HeroService implements OnInit{
 
+    private headers = new Headers({ 'Content-Type': 'application/json', 'Accept' : 'application/json' });
+    private options = new RequestOptions({ headers: this.headers });
+
     ngOnInit(): void {
         console.log('HeroService initialized');
     }
@@ -15,7 +18,7 @@ export class HeroService implements OnInit{
     remove(id:string): Observable<boolean> {
         return this
             .http
-            .delete(`/api/hero/${id}`)
+            .delete(`/api/hero/${id}`, this.options)
             .debounceTime(800)
             .map((res:Response) => res.json())
             .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
@@ -24,7 +27,7 @@ export class HeroService implements OnInit{
     findAll() : Observable<Hero[]> {
         return this
             .http
-            .get('/api/hero')
+            .get('/api/hero', this.options)
             .debounceTime(800)
             .map((res:Response) => res.json())
             .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
@@ -33,20 +36,17 @@ export class HeroService implements OnInit{
     update(hero) : Observable<boolean> {
         return this
             .http
-            .put('/api/hero', hero)
+            .put('/api/hero', hero, this.options)
             .debounceTime(800)
             .map((res:Response) => res.json())
             .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
     }
 
     create (body: Hero): Observable<Hero> {
-        //let bodyString = JSON.stringify(body); // Stringify payload
-        let headers = new Headers({ 'Content-Type': 'application/json' }); // ... Set content type to JSON
-        let options = new RequestOptions({ headers: headers }); // Create a request option
-
         return this
             .http
-            .post('/api/hero', body, options)
+            .post('/api/hero', body, this.options)
+            .debounceTime(1000)
             .map((res:Response) => res.json())
             .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
     }

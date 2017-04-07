@@ -56,7 +56,8 @@
                          [class.pointer-attack]="toggleAttackCursor(case)"
                          [class.pointer-assist]="toggleAssistCursor(case)"
                          [class.highlight]="case._highlight || _selectedHero && case._object && _selectedHero.id == case._object.id">
-                        <div *ngIf="case._object" class="battlefield-case-img" [style.background-image]="'url(../../../assets/images/heroes/small/' + case._object.imageName + '.png)'"></div>
+                        <div *ngIf="case._object && !case._object.imageB64" class="battlefield-case-img" [style.background-image]="'url(../../../assets/images/heroes/small/' + case._object.image + '.png)'"></div>
+                        <div *ngIf="case._object && case._object.imageB64" class="battlefield-case-img" [style.background-image]="'url(data:image/png;charset=utf-8;base64,case._object.iconB64)'"></div>
                         <div *ngIf="case._object" id="progressbar">
                             <div [style.width]="getHealth(case._object)"></div>
                         </div>
@@ -69,7 +70,8 @@
             <div class="col-lg-2"></div>
             <div class="col-lg-8 battlefield-player-cards-container">
                 <section class="battlefield-player-cards" *ngFor="let hero of _heroesP1">
-                    <img src="../../../assets/images/heroes/{{hero.imageName}}.jpg" alt="NaN" class="small-hero-card-img" (mouseenter)="highlight(hero)" (mouseout)="unHighlight(hero)" (click)="selectHero(hero)" [class.hero-card-highlight]="_selectedHero && hero.id == _selectedHero.id" />
+                    <img *ngIf="!hero.imageB64" src="../../../assets/images/heroes/{{hero.image}}.jpg" alt="NaN" class="small-hero-card-img" (mouseenter)="highlight(hero)" (mouseout)="unHighlight(hero)" (click)="selectHero(hero)" [class.hero-card-highlight]="_selectedHero && hero.id == _selectedHero.id" />
+                    <img *ngIf="hero.imageB64" src="data:image/jpg;charset=utf-8;base64,{{hero.imageB64}}.jpg" alt="NaN" class="small-hero-card-img" (mouseenter)="highlight(hero)" (mouseout)="unHighlight(hero)" (click)="selectHero(hero)" [class.hero-card-highlight]="_selectedHero && hero.id == _selectedHero.id" />
                 </section>
             </div>
             <div class="col-lg-2"></div>
@@ -78,7 +80,8 @@
             <div class="col-lg-2"></div>
             <div class="col-lg-8 battlefield-player-cards-container">
                 <section class="battlefield-player-cards" *ngFor="let hero of _heroesP2">
-                    <img src="../../../assets/images/heroes/{{hero.imageName}}.jpg" alt="NaN" class="small-hero-card-img" (mouseenter)="highlight(hero)" (mouseout)="unHighlight(hero)" (click)="selectHero(hero)" [class.hero-card-highlight]="_selectedHero && hero.id == _selectedHero.id" />
+                    <img *ngIf="!hero.imageB64" src="../../../assets/images/heroes/{{hero.image}}.jpg" alt="NaN" class="small-hero-card-img" (mouseenter)="highlight(hero)" (mouseout)="unHighlight(hero)" (click)="selectHero(hero)" [class.hero-card-highlight]="_selectedHero && hero.id == _selectedHero.id" />
+                    <img *ngIf="hero.imageB64" src="data:image/jpg;charset=utf-8;base64,{{hero.image}}.jpg" alt="NaN" class="small-hero-card-img" (mouseenter)="highlight(hero)" (mouseout)="unHighlight(hero)" (click)="selectHero(hero)" [class.hero-card-highlight]="_selectedHero && hero.id == _selectedHero.id" />
                 </section>
             </div>
             <div class="col-lg-2"></div>

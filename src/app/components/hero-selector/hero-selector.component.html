@@ -20,7 +20,8 @@
                         <div class="front">
                             <!-- front content -->
                             <figure>
-                                <img src="/assets/images/heroes/{{hero.imageName}}.jpg" alt="Erreur" />
+                                <img *ngIf="hero.image && !hero.imageB64" src="/assets/images/heroes/{{hero.image}}.jpg" alt="Erreur" />
+                                <img *ngIf="hero.imageB64" src="data:image/jpg;charset=utf-8;base64,{{hero.imageB64}}" alt="Erreur" />
                             </figure>
                         </div>
                         <div class="back">

@@ -49,6 +49,10 @@
                                 </div>
                             </div>
                         </fieldset>
+                        <fieldset class="col-xs-12">
+                            <legend>Objet</legend>
+                            <app-hero-editor-item [_hero]="_selectedHero"></app-hero-editor-item>
+                        </fieldset>
                         <fieldset class="col-xs-4">
                             <legend>Pattern de déplacement</legend>
                             <app-hero-editor-pattern [_heroPattern]="_selectedHero.movePattern" [_addClass]="'pattern-bg-color-blue'"></app-hero-editor-pattern>

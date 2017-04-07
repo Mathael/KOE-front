@@ -2,6 +2,7 @@ import {Component, OnInit, Output, EventEmitter, Input, ViewChild, ElementRef} f
 import {Hero} from "../../model";
 import {HeroService} from "../../service";
 import {Constants} from '../../util';
+import {DomSanitizer} from "@angular/platform-browser";
 
 @Component({
     moduleId: module.id,
@@ -12,11 +13,18 @@ import {Constants} from '../../util';
 })
 export class HeroSelectorComponent implements OnInit {
 
+    // All heroes
     private _heroes:Hero[] = [];
+
+    // selected heroes containers
     private _selectedHeroesPlayer1:Hero[] = [];
     private _selectedHeroesPlayer2:Hero[] = [];
-    private isFirstPlayerTurn:boolean = true;
+
+    // Variable used to display or hide the error message
     private _displayError:boolean = false;
+
+    // Variable used to switch between Player 1 and Player 2 selection
+    private isFirstPlayerTurn:boolean = true;
 
     @Input()
     public _configuration:any = null;
@@ -27,22 +35,28 @@ export class HeroSelectorComponent implements OnInit {
     @ViewChild('errors')
     private _errorContainer: ElementRef = null;
 
-    constructor(private heroService:HeroService) {}
+    constructor(private heroService:HeroService, private sanitizer: DomSanitizer) {}
 
-    ngOnInit() {
+    ngOnInit() : void {
         this.loadHeroes();
         this._errorContainer.nativeElement.innerHTML = Constants.MAXIMUM_NUMBER_OF_HEROES_REACHED;
     }
 
     loadHeroes() : void {
         this.heroService.findAll().subscribe(
-            heroes => this._heroes = heroes,
+            heroes => {
+                this._heroes = heroes;
+                this._heroes.forEach(hero => {
+                    if(hero.imageB64) hero.imageSafe = this.sanitizer.bypassSecurityTrustUrl('data:image/jpg;base64,' + hero.imageB64);
+                    if(hero.iconB64) hero.iconSafe = this.sanitizer.bypassSecurityTrustUrl('data:image/png;base64,' + hero.iconB64);
+                })
+            },
             err => console.error(err)
         );
     }
 
     // Handle Hero selection (store in specific array) and change the boolean that define the current player turn
-    selectHero(hero:Hero) {
+    selectHero(hero:Hero) : void {
         if(!hero || this.isSelectedByPlayer1(hero) || this.isSelectedByPlayer2(hero)) return;
 
         if(this._selectedHeroesPlayer1.length == this._configuration.maxHeroesPerTeam &&
@@ -63,7 +77,7 @@ export class HeroSelectorComponent implements OnInit {
     }
 
     // Handle reset selection click
-    reset() {
+    reset() : void {
         this._displayError = false;
         this._selectedHeroesPlayer1 = [];
         this._selectedHeroesPlayer2 = [];
@@ -71,7 +85,7 @@ export class HeroSelectorComponent implements OnInit {
     }
 
     // Validate selections and send the list of selected heroes to the parent component (Hero-Game.component)
-    validate() {
+    validate() : void {
         if(this._selectedHeroesPlayer1.length == this._configuration.maxHeroesPerTeam &&
             this._selectedHeroesPlayer2.length == this._configuration.maxHeroesPerTeam)
             this._validation.emit({
@@ -83,8 +97,7 @@ export class HeroSelectorComponent implements OnInit {
     }
 
     // Utilities functions
-
-    isSelectedByPlayer1(hero:Hero) {
+    isSelectedByPlayer1(hero:Hero){
         return this._selectedHeroesPlayer1.find((current) => {
             return current.id == hero.id
         }) || false;

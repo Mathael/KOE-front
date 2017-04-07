@@ -19,21 +19,18 @@ export class HeroEditorStatsComponent implements OnInit {
         this._stats.forEach(stat => stat.value = 0);
     }
 
-    changeStatValue(stat:Stat, addValue:number) {
-        let total = this.getTotalUsedStatPoints();
+    changeHeroStatValue(stat:Stat, addValue:number) {
+        if(!this._stats || !stat || !addValue) return;
+        let total = this._stats.map(stat => stat.value).reduce((a,b) => a + b, 0);
         if(total == 0 && addValue < 0 ||
             total == 40 && addValue > 0 ||
             (stat.value <= 0 && addValue < 0)) {
             return; // TODO: error message
         }
-
         stat.value += addValue;
     }
 
-    getTotalUsedStatPoints() {
-        if(!this._stats) return;
-        let sum = 0;
-        this._stats.forEach((stat) => sum += stat.value);
-        return sum;
+    getTotalUsedStatPoints() : number {
+        return this._stats.map(stat => stat.value).reduce((a,b) => a + b, 0);
     }
 }
