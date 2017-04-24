@@ -3,19 +3,22 @@
         <section class="col-xs-6">
             <section class="panel panel-default col-xs-12">
                 <div class="panel-body">
-                    <form class="navbar-form navbar-left" role="search">
-                        <div class="form-group">
-                            <input type="text" size="30" class="form-control input-sm" #searchBox placeholder="Recherche par nom" id="search-box" (keyup)="search(searchBox.value)" />
-                        </div>
-                    </form>
-                    <div class="inline-block">
-                        <input type="checkbox" value="mage"> <label>Mage</label>
-                        <input type="checkbox" value="warrior" /> <label>Guerrier</label>
-                        <input type="checkbox" value="tank" /> <label>Tank</label>
-                        <input type="checkbox" value="healer" /> <label>Guérisseur</label>
+                    <div class="col-xs-12">
+                        <button class="btn btn-sm btn-success inline-block" (click)="create()">Nouveau</button>
+                        <button *ngIf="_selectedHero" class="btn btn-sm btn-danger inline-block" (click)="remove(_selectedHero.id)">Supprimer</button>
                     </div>
-                    <button class="btn btn-sm btn-success" (click)="create()">Nouveau</button>
-                    <button *ngIf="_selectedHero" class="btn btn-sm btn-danger" (click)="remove(_selectedHero.id)">Supprimer</button>
+                    <div class="col-xs-12">
+                        <label class="col-xs-12 col-sm-12 col-md-6 col-lg-2" for="search-box">Recherche</label>
+                        <input type="text" size="30" class="col-xs-12 col-md-6 col-lg-10" #searchBox placeholder="Recherche par nom" id="search-box" (keyup)="search(searchBox.value)" />
+                    </div>
+                    <div class="col-xs-12">
+                        <label for="select" class="col-xs-12 col-md-2 col-lg-2">Tri par statistique</label>
+                        <select id="select" class="col-xs-12 col-md-5 col-lg-4 my-select-input" [(ngModel)]="_searchStat" (change)="sortByStats(sortStatInput.value)">
+                            <option *ngFor="let stat of _stats" value="{{stat.sid}}">{{stat.label}}</option>
+                        </select>
+                        <div class="col-lg-1"> >= </div>
+                        <input class="col-xs-12 col-md-5 col-lg-5" #sortStatInput (change)="sortByStats($event.target.value)" type="number" min="0" max="50" value="0" />
+                    </div>
                 </div>
             </section>
             <div class="row">
@@ -67,7 +70,7 @@
                         </fieldset>
                         <fieldset class="col-xs-12">
                             <legend>Statistiques</legend>
-                            <app-hero-editor-stats [_stats]="_selectedHero.stats"></app-hero-editor-stats>
+                            <app-hero-editor-stats [_stats]="_selectedHero.stats" [_changeStatFunction]="statsChangeFunction"></app-hero-editor-stats>
                         </fieldset>
                         <fieldset class="col-xs-12">
                             <legend>Images</legend>

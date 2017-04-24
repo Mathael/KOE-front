@@ -17,6 +17,7 @@ import {
     HeroEditorItemComponent,
     ItemComponent
 } from './components';
+import { ItemEditorComponent } from './components/item-editor/item-editor.component';
 
 @NgModule({
     declarations: [
@@ -31,6 +32,7 @@ import {
         HeroGameConfigComponent,
         HeroSelectorComponent,
         ItemComponent,
+        ItemEditorComponent,
     ],
     imports: [
         BrowserModule,

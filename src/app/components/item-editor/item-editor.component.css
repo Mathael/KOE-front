@@ -1,0 +1,20 @@
+.item-short {
+    display: inline-block;
+    margin-top: 5px;
+}
+
+.item-short-icon {
+    float: right;
+}
+
+.item-short-panel {
+    height: 90px;
+}
+
+.item-short-panel:hover {
+    cursor: pointer;
+}
+
+.highligth {
+    background-color: #5287b3;
+}

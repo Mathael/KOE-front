@@ -30,3 +30,21 @@ fieldset > legend {
     margin-bottom: 10px;
     min-height: 30px;
 }
+
+.inline-block {
+    display: inline-block;
+}
+.block {
+    display: block;
+}
+.float-right {
+    float: right;
+}
+.my-select-input {
+    color: black;
+    padding-top: 1px;
+    border-top-width: 2px;
+    padding-bottom: 1px;
+    border-bottom-width: 2px;
+    height: 27px;
+}

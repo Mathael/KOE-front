@@ -8,4 +8,4 @@ export * from './hero-game/hero-game.component';
 export * from './hero-game-config/hero-game-config.component'
 export * from './hero-selector/hero-selector.component';
 export * from './item/item.component';
-
+export * from './item-editor/item-editor.component';

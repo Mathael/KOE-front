@@ -1,0 +1,57 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="item-short-panel col-xs-12 col-md-4 col-lg-3" (click)="create()">
+                <div class="panel panel-default" [class.highligth]="false">
+                    <div class="panel-body">
+                        <p class="item-short">Créer un nouvel objet</p>
+                        <span class="item-short-icon fa fa-2x fa-plus" style="margin-top: 5px; height: 32px;"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="item-short-panel col-xs-12 col-md-4 col-lg-3" *ngFor="let item of _items" (click)="selectItem(item)">
+                <div class="panel panel-default" [class.highligth]="item == _selectedItem">
+                    <div class="panel-body">
+                        <p class="item-short">{{item.name}}</p>
+                        <span class="item-short-icon">
+                            <img *ngIf="!item.imageB64" src="../../../assets/images/items/{{item.image}}.png" alt="Object Icon" width="32px" height="32px" />
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="_selectedItem" class="col-xs-12">
+            <hr />
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="item-short">Modification d'objet</h4>
+                </div>
+                <div class="panel-body">
+                    <form class="form-horizontal">
+                        <fieldset>
+                            <div class="form-group">
+                                <label for="input-name" class="col-lg-2 control-label">Nom de l'objet</label>
+                                <div class="col-lg-10">
+                                    <input type="text" class="form-control" id="input-name" name="name" placeholder="Nom de l'objet" [(ngModel)]="_selectedItem.name" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <legend class="col-xs-12">Statistiques</legend>
+                                <div class="col-xs-12">
+                                    <app-hero-editor-stats [_stats]="_selectedItem.stats" [_maxPoints]="0" [_changeStatFunction]="statsChangeFunction"></app-hero-editor-stats>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-lg-10 col-lg-offset-2">
+                                    <p>La validation permet la synchronisation avec le serveur</p>
+                                    <button type="reset" class="btn btn-default">Annuler</button>
+                                    <button type="submit" class="btn btn-primary" [disabled]="!statsValidator(_selectedItem.stats)">Valider</button>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

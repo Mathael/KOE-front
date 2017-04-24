@@ -1,14 +1,10 @@
-import {Injectable, OnInit} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {Http, Response, Headers, RequestOptions} from "@angular/http";
 import {Item} from "../model";
 import {Observable} from 'rxjs/Rx';
 
 @Injectable()
-export class ItemService implements OnInit{
-
-    ngOnInit(): void {
-        console.log('ItemService initialized');
-    }
+export class ItemService {
 
     constructor(private http:Http) {}
 
