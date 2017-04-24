@@ -8,10 +8,10 @@ export class UploadService {
 
     constructor(private http: Http) {}
 
-    upload(heroId : string, fileType: string, file: any) : Observable<Hero> {
+    upload(entityType : string, entityId : string, fileFormat: string, file: any) : Observable<Hero> {
         return this
             .http
-            .post(`/api/upload/${heroId}/${fileType}`, file)
+            .post(`/api/upload/${entityType}/${entityId}/${fileFormat}`, file)
             .map(response => response.json())
             .debounceTime(1000)
             .catch((error:any) => Observable.throw(error.json().error || 'Server error'));

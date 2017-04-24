@@ -12,12 +12,14 @@ import {
     HeroGameComponent,
     HeroGameConfigComponent,
     HeroEditorPatternComponent,
-    HeroEditorImageComponent,
     HeroEditorStatsComponent,
     HeroEditorItemComponent,
-    ItemComponent
+    ItemComponent,
+    ItemEditorComponent
 } from './components';
-import { ItemEditorComponent } from './components/item-editor/item-editor.component';
+import {PushNotificationComponent} from "ng2-notifications/ng2-notifications";
+import {NotificationService} from "./service/notification.service";
+import { EditorImageComponent } from './components/editor-image/editor-image.component';
 
 @NgModule({
     declarations: [
@@ -27,12 +29,13 @@ import { ItemEditorComponent } from './components/item-editor/item-editor.compon
         HeroEditorItemComponent,
         HeroEditorPatternComponent,
         HeroEditorStatsComponent,
-        HeroEditorImageComponent,
         HeroGameComponent,
         HeroGameConfigComponent,
         HeroSelectorComponent,
         ItemComponent,
         ItemEditorComponent,
+        PushNotificationComponent,
+        EditorImageComponent,
     ],
     imports: [
         BrowserModule,
@@ -40,7 +43,7 @@ import { ItemEditorComponent } from './components/item-editor/item-editor.compon
         HttpModule,
         AppRoutingModule,
     ],
-    providers: [],
+    providers: [NotificationService],
     bootstrap: [AppComponent]
 })
 export class AppModule {}

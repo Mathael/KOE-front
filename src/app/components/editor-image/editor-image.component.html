@@ -1,0 +1,19 @@
+<div class="form-group">
+    <div class="col-xs-12 col-lg-6">
+        <label class="col-xs-12" for="input-file-normal">Image 260 x 390</label>
+        <input class="col-xs-12" id="input-file-normal" #image type="file" accept="image/png" />
+        <button class="btn-sm btn-warning col-xs-12" (click)="uploadFile()">Envoyer</button>
+    </div>
+    <div class="col-xs-12 col-lg-6">
+        <p>Prévisualisation</p>
+        <figure>
+            <div class="display-flex justify-content-center">
+                <img *ngIf="_imageInfo.image && !_imageInfo.imageB64 && _imageInfo.imageType == 'image'" src="../../../assets/images/heroes/{{_imageInfo.image}}.{{_imageInfo.imageFormat}}" width="200" height="360" />
+                <img *ngIf="_imageInfo.image && !_imageInfo.imageB64 && _imageInfo.imageType == 'icon'" src="../../../assets/images/heroes/small/{{_imageInfo.image}}.{{_imageInfo.imageFormat}}" width="120" height="120" />
+                <img *ngIf="_imageInfo.image && !_imageInfo.imageB64 && _imageInfo.imageType == 'item'" src="../../../assets/images/items/{{_imageInfo.image}}.{{_imageInfo.imageFormat}}" width="48" height="48" />
+                <img *ngIf="_imageInfo.imageB64" [src]="_imageSafe" width="120" height="120" />
+            </div>
+        </figure>
+    </div>
+</div>
+

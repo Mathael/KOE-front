@@ -1,14 +1,13 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {HeroService} from "../../service/hero.service";
-import {Hero} from "../../model";
-import {Stat} from "../../model/Stat";
+import {HeroService, NotificationService} from "../../service";
+import {Hero, Stat, ImageInfo} from "../../model";
 
 @Component({
     moduleId: module.id,
     selector: 'hero-editor',
     templateUrl: './hero-editor.component.html',
     styleUrls: ['./hero-editor.component.css', '../../../assets/css/global.css'],
-    providers: [HeroService]
+    providers: [HeroService, NotificationService]
 })
 export class HeroEditorComponent implements OnInit {
 
@@ -29,7 +28,7 @@ export class HeroEditorComponent implements OnInit {
     @ViewChild('searchBox')
     private input: ElementRef;
 
-    constructor(private heroService: HeroService) {}
+    constructor(private heroService: HeroService, private notifications : NotificationService) {}
 
     ngOnInit() {
         this.loadHeroes(() => {
@@ -66,8 +65,9 @@ export class HeroEditorComponent implements OnInit {
             .remove(id)
             .subscribe(response => {
                 if (response) {
-                    let hero: Hero = this._heroes.find((h) => h.id == id);
+                    let hero: Hero = this._heroes.find(h => h.id == id);
                     this._heroes.splice(this._heroes.indexOf(hero), 1);
+                    console.log('Hero removed');
                 }
             }, this.errorCallBack);
     }
@@ -106,9 +106,7 @@ export class HeroEditorComponent implements OnInit {
 
     sortByStats(value:number) {
         this._displayedHeroes = this._heroes.filter(hero =>
-            hero.stats.find(stat =>
-                stat.sid == this._searchStat && stat.value >= value
-            ) != null
+            hero.stats.find(stat => stat.sid == this._searchStat && stat.value >= value) != null
         );
     }
 
@@ -120,7 +118,20 @@ export class HeroEditorComponent implements OnInit {
             .update(hero)
             .subscribe(data => {
                 console.log(data);
+                if(data == true) {
+                    console.log('Hero updated');
+                    //NotificationService.notification.body = 'Mise à jour\nHéro synchronisé avec succès !';
+                    //this.notifications.show();
+                }
             }, this.errorCallBack);
+    }
+
+    getSelectedHeroImageInfo() : ImageInfo {
+        return new ImageInfo('hero', 'image', this._selectedHero.id, 'jpg', this._selectedHero.image, this._selectedHero.imageB64);
+    }
+
+    getSelectedHeroIconInfo() : ImageInfo {
+        return new ImageInfo('hero', 'icon', this._selectedHero.id, 'png', this._selectedHero.image, this._selectedHero.iconB64);
     }
 
     create() {

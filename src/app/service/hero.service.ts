@@ -1,17 +1,13 @@
-import {Injectable, OnInit} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {Http, Response, Headers, RequestOptions} from "@angular/http";
 import {Hero} from "../model/Hero";
 import {Observable} from 'rxjs/Rx';
 
 @Injectable()
-export class HeroService implements OnInit{
+export class HeroService {
 
     private headers = new Headers({ 'Content-Type': 'application/json', 'Accept' : 'application/json' });
     private options = new RequestOptions({ headers: this.headers });
-
-    ngOnInit(): void {
-        console.log('HeroService initialized');
-    }
 
     constructor(private http:Http) {}
 

@@ -74,7 +74,8 @@
                         </fieldset>
                         <fieldset class="col-xs-12">
                             <legend>Images</legend>
-                            <app-hero-editor-image [_hero]="_selectedHero"></app-hero-editor-image>
+                            <app-editor-image [_imageInfo]="getSelectedHeroImageInfo()"></app-editor-image>
+                            <app-editor-image [_imageInfo]="getSelectedHeroIconInfo()"></app-editor-image>
                         </fieldset>
                     </div>
                 </div>

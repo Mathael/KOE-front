@@ -48,6 +48,12 @@
                                     <button type="submit" class="btn btn-primary" [disabled]="!statsValidator(_selectedItem.stats)">Valider</button>
                                 </div>
                             </div>
+                            <div class="form-group">
+                                <legend class="col-xs-12">Image</legend>
+                                <div class="col-xs-12">
+                                    <app-editor-image [_imageInfo]="getSelectedItemImageInfo()"></app-editor-image>
+                                </div>
+                            </div>
                         </fieldset>
                     </form>
                 </div>

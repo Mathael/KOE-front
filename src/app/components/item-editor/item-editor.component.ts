@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ItemService} from "../../service";
-import {Item} from "../../model";
-import {Stat} from "../../model/Stat";
+import {Item, Stat, ImageInfo} from "../../model";
 
 @Component({
     selector: 'app-item-editor',
@@ -33,6 +32,10 @@ export class ItemEditorComponent implements OnInit {
 
     create() : void {
         this._selectedItem = new Item();
+    }
+
+    getSelectedItemImageInfo() : ImageInfo {
+        return new ImageInfo('item', 'item', this._selectedItem.id, 'png', this._selectedItem.image, this._selectedItem.imageB64);
     }
 
     statsValidator(stats:Stat[]) : boolean {
