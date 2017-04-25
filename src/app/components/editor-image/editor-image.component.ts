@@ -40,7 +40,8 @@ export class EditorImageComponent implements OnInit {
                         //this._entity = res;
                         if(this._imageInfo.imageB64) this._imageSafe = this.sanitizer.bypassSecurityTrustUrl('data:image/'+this._imageInfo.imageFormat+';base64,'+this._imageInfo.imageB64);
                     }
-                });
+                },
+                err => console.error(err));
         }
     }
 }

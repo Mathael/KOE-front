@@ -17,7 +17,19 @@ export class Utils {
         let attackerSTR : number = this.getStat('STR', attacker.stats).value;
         let attackerDEX : number = this.getStat('DEX', attacker.stats).value;
 
-        target.currentHp -= (attackerSTR * 3 + 10 + (attackerDEX / 2));
+        // get item stats
+        let attackerItemSTR : number = 0;
+        let attackerItemDEX : number = 0;
+
+        if(attacker.item) {
+            attackerItemSTR = this.getStat('STR', attacker.item.stats).value;
+            attackerItemDEX = this.getStat('DEX', attacker.item.stats).value;
+        }
+
+        let damage : number = ((attackerSTR + attackerItemSTR) * 3 + 10 + ((attackerDEX + attackerItemDEX) / 2));
+        if(damage < 0) damage = 0;
+
+        target.currentHp -= damage;
     }
 
     /**
@@ -29,7 +41,21 @@ export class Utils {
         let effectorMEN : number = this.getStat('MEN', effector.stats).value;
         let effectorCON : number = this.getStat('CON', effector.stats).value;
 
-        effected.currentHp += effectorINT * 5 + effectorMEN * 5 - effectorCON * 2;
+        // get item stats
+        let effectorItemINT : number = 0;
+        let effectorItemMEN : number = 0;
+        let effectorItemCON : number = 0;
+
+        if(effector.item) {
+            effectorItemINT = this.getStat('INT', effector.item.stats).value;
+            effectorItemMEN = this.getStat('MEN', effector.item.stats).value;
+            effectorItemCON = this.getStat('CON', effector.item.stats).value;
+        }
+
+        let amount : number = ((effectorINT + effectorItemINT) * 5 + (effectorMEN + effectorItemMEN) * 5 - (effectorCON + effectorItemCON) * 2);
+        if(amount < 0) amount = 0;
+
+        effected.currentHp += amount;
     }
 
     /**

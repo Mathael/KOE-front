@@ -26,10 +26,10 @@ export class ItemService {
             .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
     }
 
-    update(hero) : Observable<boolean> {
+    update(item) : Observable<boolean> {
         return this
             .http
-            .put('/api/item', hero)
+            .put('/api/item', item)
             .debounceTime(800)
             .map((res:Response) => res.json())
             .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
