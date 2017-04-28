@@ -89,6 +89,44 @@ export class HeroEditorComponent implements OnInit {
         this._displayedHeroes = this._heroes.filter(hero => hero.name.toLowerCase().indexOf(term.toLowerCase()) != -1);
     }
 
+    sortByNameAsc() : void {
+        if(!this._heroes || !this._displayedHeroes) return;
+        this._displayedHeroes.sort((h1, h2) => {
+            if(h1.name < h2.name) return -1;
+            if(h1.name > h2.name) return 1;
+            return 0;
+        });
+    }
+
+    sortByNameDesc() : void {
+        if(!this._heroes || !this._displayedHeroes) return;
+        this._displayedHeroes.sort((h1, h2) => {
+            if(h1.name > h2.name) return -1;
+            if(h1.name < h2.name) return 1;
+            return 0;
+        });
+    }
+
+    sortByForceDesc() : void {
+        if(!this._heroes || !this._displayedHeroes) return;
+        this._displayedHeroes.sort((h1, h2) => {
+            let h1Str : number = h1.stats.find(stat => stat.sid == 'STR').value;
+            let h2Str : number = h2.stats.find(stat => stat.sid == 'STR').value;
+
+            return h2Str - h1Str;
+        });
+    }
+
+    sortByForceAsc() : void {
+        if(!this._heroes || !this._displayedHeroes) return;
+        this._displayedHeroes.sort((h1, h2) => {
+            let h1Str : number = h1.stats.find(stat => stat.sid == 'STR').value;
+            let h2Str : number = h2.stats.find(stat => stat.sid == 'STR').value;
+
+            return h1Str - h2Str;
+        });
+    }
+
     statsChangeFunction(stats : Stat[], stat:Stat, value : number) : void {
         if(!this._stats || !stat || !value) return;
         let total = this._stats.map(stat => stat.value).reduce((a,b) => a + b, 0);

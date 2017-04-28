@@ -15,6 +15,7 @@
                         <p class="item-short">{{item.name}}</p>
                         <span class="item-short-icon">
                             <img *ngIf="!item.imageB64" src="../../../assets/images/items/{{item.image}}.png" alt="Object Icon" width="32px" height="32px" />
+                            <img *ngIf="item.imageB64" [src]="_imageSafe" alt="Error" width="32px" height="32px" />
                         </span>
                     </div>
                 </div>

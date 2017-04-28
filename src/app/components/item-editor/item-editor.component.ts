@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ItemService} from "../../service";
 import {Item, Stat, ImageInfo} from "../../model";
+import {DomSanitizer, SafeUrl} from "@angular/platform-browser";
 
 @Component({
     selector: 'app-item-editor',
@@ -13,7 +14,9 @@ export class ItemEditorComponent implements OnInit {
     private _selectedItem = null;
     private _items : Item[] = [];
 
-    constructor(private itemService:ItemService) {}
+    private _imageSafe : SafeUrl = null;
+
+    constructor(private itemService:ItemService, private sanitizer: DomSanitizer) {}
 
     ngOnInit() {
         this
@@ -28,6 +31,7 @@ export class ItemEditorComponent implements OnInit {
     selectItem(item : Item) : void {
         if(!item) return;
         this._selectedItem = item;
+        this._imageSafe = this.sanitizer.bypassSecurityTrustUrl('data:image/png;base64,'+this._selectedItem.imageB64);
     }
 
     create() : void {

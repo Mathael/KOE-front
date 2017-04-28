@@ -12,12 +12,26 @@
                         <input type="text" size="30" class="col-xs-12 col-md-6 col-lg-10" #searchBox placeholder="Recherche par nom" id="search-box" (keyup)="search(searchBox.value)" />
                     </div>
                     <div class="col-xs-12">
-                        <label for="select" class="col-xs-12 col-md-2 col-lg-2">Tri par statistique</label>
+                        <label for="select" class="col-xs-12 col-md-2 col-lg-2">Recherche par statistique</label>
                         <select id="select" class="col-xs-12 col-md-5 col-lg-4 my-select-input" [(ngModel)]="_searchStat" (change)="sortByStats(sortStatInput.value)">
                             <option *ngFor="let stat of _stats" value="{{stat.sid}}">{{stat.label}}</option>
                         </select>
                         <div class="col-lg-1"> >= </div>
                         <input class="col-xs-12 col-md-5 col-lg-5" #sortStatInput (change)="sortByStats($event.target.value)" type="number" min="0" max="50" value="0" />
+                    </div>
+                    <div class="col-xs-12">
+                        <div class="col-xs-3">
+                            <button class="btn btn-default" (click)="sortByNameAsc()">Tri par nom [Asc]</button>
+                        </div>
+                        <div class="col-xs-3">
+                            <button class="btn btn-default" (click)="sortByNameDesc()">Tri par nom [Desc}</button>
+                        </div>
+                        <div class="col-xs-3">
+                            <button class="btn btn-default" (click)="sortByForceAsc()">Tri par force [Asc]</button>
+                        </div>
+                        <div class="col-xs-3">
+                            <button class="btn btn-default" (click)="sortByForceDesc()">Tri par force [Desc]</button>
+                        </div>
                     </div>
                 </div>
             </section>
